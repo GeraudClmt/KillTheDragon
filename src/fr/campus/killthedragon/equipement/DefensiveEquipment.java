@@ -5,9 +5,9 @@ public class DefensiveEquipment {
     private int stats = 4;
 
     public String getType(){
-        return this.type;
+        return type;
     }
     public int getStats(){
-        return this.stats;
+        return stats;
     }
 }

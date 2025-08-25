@@ -8,13 +8,13 @@ public class Menu {
 
     public String getUserInput(Scanner scanner, String question, ArrayList<String> correctValue){
         while(true){
-            this.showMessage(question);
+            showMessage(question);
             String input = scanner.nextLine();
 
             if(correctValue == null || correctValue.contains(input)){
                 return input;
             }
-            this.showMessage("Error of input, please try again.");
+            showMessage("Error of input, please try again.");
         }
 
     }

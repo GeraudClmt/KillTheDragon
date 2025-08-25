@@ -16,10 +16,10 @@ public class Case {
         FINAL,
     }
     public boolean isEmpty(){
-        return this.type == CellType.EMPTY;
+        return type == CellType.EMPTY;
     }
 
     public String toString(){
-        return this.type.name();
+        return type.name();
     }
 }

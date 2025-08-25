@@ -14,7 +14,7 @@ public class Character {
         this.name = name;
     }
     public String toString(){
-        return "Type: " + this.type + " Name: " + this.name + " Health: " + this.health + " Attack: " + this.attack;
+        return "Type: " + type + " Name: " + name + " Health: " + health + " Attack: " + attack;
     }
     public void setAttack(int attack){
         this.attack += attack;

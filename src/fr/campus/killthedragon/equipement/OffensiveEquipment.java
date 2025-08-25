@@ -5,9 +5,9 @@ public class OffensiveEquipment {
     private int attack = 2;
 
     public String getType(){
-        return this.type;
+        return type;
     }
     public int getAttack(){
-        return this.attack;
+        return attack;
     }
 }

@@ -15,35 +15,35 @@ public class Board {
     private int caseOfGamer = 1;
 
     public Board(){
-        this.numberCase = 64;
-        this.nbBonusCases = 10;
-        this.nbEnnemiesCases = 10;
-        this.casesList = new ArrayList<>(this.numberCase);
+        numberCase = 64;
+        nbBonusCases = 10;
+        nbEnnemiesCases = 10;
+        casesList = new ArrayList<>(numberCase);
 
-        for(int i = 0; i <= this.numberCase; i++){
-            if(i == this.numberCase){
-                this.casesList.add(new Case(Case.CellType.FINAL));
+        for(int i = 0; i <= numberCase; i++){
+            if(i == numberCase){
+                casesList.add(new Case(Case.CellType.FINAL));
             }else{
-                this.casesList.add(new Case(Case.CellType.EMPTY));
+                casesList.add(new Case(Case.CellType.EMPTY));
             }
         }
 
-        setCaseBonusAndEnemy(this.nbBonusCases, Case.CellType.BONUS);
-        setCaseBonusAndEnemy(this.nbEnnemiesCases, Case.CellType.ENEMY);
+        setCaseBonusAndEnemy(nbBonusCases, Case.CellType.BONUS);
+        setCaseBonusAndEnemy(nbEnnemiesCases, Case.CellType.ENEMY);
     }
 
     public void setCaseOfGamer(int addCase){
         menu.showMessage("You move forward " + addCase + " cases");
-        if(this.caseOfGamer + addCase > this.numberCase){
-            this.caseOfGamer = 64;
+        if(caseOfGamer + addCase > numberCase){
+            caseOfGamer = 64;
         }else{
-            this.caseOfGamer += addCase;
+            caseOfGamer += addCase;
         }
         getCaseTypeOfPlayer();
     }
 
     public int getCaseOfGamer(){
-        return this.caseOfGamer;
+        return caseOfGamer;
     }
 
     private void setCaseBonusAndEnemy(int nbCases, Case.CellType type){
@@ -52,9 +52,9 @@ public class Board {
         for(int i = 0; i < nbCases; i++){
             boolean isNotEmpty = true;
             while(isNotEmpty) {
-                int randomCase = rand.nextInt(this.numberCase - 2) + 2;
-                if (this.casesList.get(randomCase).isEmpty()) {
-                    this.casesList.set(randomCase, new Case(type));
+                int randomCase = rand.nextInt(numberCase - 2) + 2;
+                if (casesList.get(randomCase).isEmpty()) {
+                    casesList.set(randomCase, new Case(type));
                     isNotEmpty = false;
                 }
             }
@@ -62,6 +62,6 @@ public class Board {
     }
 
     public void getCaseTypeOfPlayer(){
-        menu.showMessage("You arrived on case " + this.caseOfGamer+ ", it's a " + this.casesList.get(caseOfGamer).toString() + " case.");
+        menu.showMessage("You arrived on case " + caseOfGamer+ ", it's a " + casesList.get(caseOfGamer).toString() + " case.");
     }
 }
