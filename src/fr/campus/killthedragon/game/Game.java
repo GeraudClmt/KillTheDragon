@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
+/**
+ * Represents the main game logic and handles user interaction in the game.
+ */
 public class Game {
     Scanner scanner = new Scanner(System.in);
     private Character player = null;
@@ -16,6 +19,10 @@ public class Game {
     private Menu menu = new Menu();
     private Dice dice = new Dice();
 
+    /**
+     * Starts the game or allows the user to quit.
+     * @return {@code true} if the player wants to restart; {@code false} to quit
+     */
     public boolean startOrQuit(){
         String start = menu.getUserInput(scanner,"Enter y for start the game or any to quit the game.", null);
         if(start.equals("y")){
@@ -39,9 +46,17 @@ public class Game {
 
         return "r".equals(restart);
     }
+
+    /**
+     * Displays a message to reset the game.
+     */
     public void reset(){
         menu.showMessage("Do you want reset the game ?");
     }
+
+    /**
+     * Closes the scanner resource.
+     */
     public void closeScanner(){
         scanner.close();
     }

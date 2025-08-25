@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
+/**
+ * Represents the game board containing cases for the player to move on.
+ */
 public class Board {
     private final Menu menu = new Menu();
     private int numberCase;
@@ -14,6 +17,9 @@ public class Board {
     private int nbEnnemiesCases;
     private int caseOfGamer = 1;
 
+    /**
+     * Constructs the Board with a predefined number of cases, bonus, and enemies.
+     */
     public Board(){
         numberCase = 64;
         nbBonusCases = 10;
@@ -32,6 +38,10 @@ public class Board {
         setCaseBonusAndEnemy(nbEnnemiesCases, Case.CellType.ENEMY);
     }
 
+    /**
+     * Updates the player's case position by adding the given number of cases.
+     * @param addCase the number of cases to move forward
+     */
     public void setCaseOfGamer(int addCase){
         menu.showMessage("You move forward " + addCase + " cases");
         if(caseOfGamer + addCase > numberCase){
@@ -42,10 +52,19 @@ public class Board {
         getCaseTypeOfPlayer();
     }
 
+    /**
+     * Returns the current case number of the player.
+     * @return the player's case number
+     */
     public int getCaseOfGamer(){
         return caseOfGamer;
     }
 
+    /**
+     * Assigns bonus or enemy cases randomly on the board.
+     * @param nbCases the number of cases
+     * @param type the type of case (BONUS or ENEMY)
+     */
     private void setCaseBonusAndEnemy(int nbCases, Case.CellType type){
         Random rand = new Random();
 
@@ -61,6 +80,9 @@ public class Board {
         }
     }
 
+    /**
+     * Displays the type of the case where the player currently is.
+     */
     public void getCaseTypeOfPlayer(){
         menu.showMessage("You arrived on case " + caseOfGamer+ ", it's a " + casesList.get(caseOfGamer).toString() + " case.");
     }

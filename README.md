@@ -14,6 +14,7 @@ KillTheDragon est un jeu Java en ligne de commande où le joueur incarne un hér
 .
 ├── KillTheDragon.iml
 ├── README.md
+├── docs
 ├── out
 │   └── production
 │       └── KillTheDragon

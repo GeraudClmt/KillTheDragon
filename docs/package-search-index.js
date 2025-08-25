@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"fr.campus.killthedragon.character"},{"l":"fr.campus.killthedragon.enemy"},{"l":"fr.campus.killthedragon.equipement"},{"l":"fr.campus.killthedragon.game"}];updateSearchResults();
