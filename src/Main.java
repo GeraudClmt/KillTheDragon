@@ -1,11 +1,18 @@
 import fr.campus.killthedragon.game.Game;
+import fr.campus.killthedragon.game.Menu;
 public class Main {
+
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-    Game game = new Game();
 
-    game.startOrQuit();
+        boolean play = true;
+        Menu menu = new Menu();
+        Game game = new Game();
+        while(play){
+            game = new Game();
+            play = game.startOrQuit();
+        }
 
+        game.closeScanner();
+        menu.showMessage("Good bye :/");
     }
 }
