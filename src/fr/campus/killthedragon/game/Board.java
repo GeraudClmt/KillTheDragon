@@ -45,7 +45,7 @@ public class Board {
     public void setCaseOfGamer(int addCase){
         menu.showMessage("You move forward " + addCase + " cases");
         if(caseOfGamer + addCase > numberCase){
-            caseOfGamer = 64;
+            caseOfGamer = casesList.toArray().length - 1;
         }else{
             caseOfGamer += addCase;
         }
@@ -85,5 +85,13 @@ public class Board {
      */
     public void getCaseTypeOfPlayer(){
         menu.showMessage("You arrived on case " + caseOfGamer+ ", it's a " + casesList.get(caseOfGamer).toString() + " case.");
+    }
+
+    public Case getCaseOfPlayer(){
+        return casesList.get(caseOfGamer);
+    }
+
+    public int getNumberCase(){
+        return numberCase;
     }
 }

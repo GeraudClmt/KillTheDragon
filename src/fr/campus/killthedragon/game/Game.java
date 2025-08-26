@@ -4,6 +4,7 @@ import fr.campus.killthedragon.character.Character;
 import fr.campus.killthedragon.game.Board;
 import fr.campus.killthedragon.game.Menu;
 import fr.campus.killthedragon.game.Dice;
+import fr.campus.killthedragon.game.Case;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,11 +35,19 @@ public class Game {
             menu.showMessage("Inventory " + player.getInventory());
 
             menu.showMessage("You start on the case " + board.getCaseOfGamer());
-            while(board.getCaseOfGamer() < 64){
+            while(board.getCaseOfGamer() < board.getNumberCase()){
                 menu.getUserInput(scanner, "Press enter to roll the dice.", null);
                 int diceRoll = dice.roll();
                 menu.showMessage(String.valueOf(diceRoll));
                 board.setCaseOfGamer(diceRoll);
+
+                Case caseOfPlayer = board.getCaseOfPlayer();
+                if(caseOfPlayer.getType() == Case.CellType.BONUS){
+                    player.setToInventory(caseOfPlayer.getEquipment());
+                    menu.showMessage("Inventory " + player.getInventory());
+                } else if (caseOfPlayer.getType() == Case.CellType.ENEMY) {
+                    menu.showMessage("The fight start against " + caseOfPlayer.getEnemy().getName());
+                }
 
             }
         }

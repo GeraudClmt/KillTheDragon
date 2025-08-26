@@ -7,13 +7,19 @@ import fr.campus.killthedragon.equipement.OffensiveEquipment;
  */
 public class Case {
     private CellType type;
-
+    private Enemy enemy = null;
+    private OffensiveEquipment  offensiveEquipment = null;
     /**
      * Constructs a new case of the given cell type.
      * @param type the type of the case
      */
     public Case(CellType type){
         this.type = type;
+        if(this.type == CellType.BONUS){
+            offensiveEquipment = new OffensiveEquipment();
+        } else if (this.type == CellType.ENEMY) {
+            enemy = new Enemy();
+        }
     }
 
     /**
@@ -40,5 +46,16 @@ public class Case {
     @Override
     public String toString(){
         return type.name();
+    }
+
+    public CellType getType(){
+        return type;
+    }
+
+    public OffensiveEquipment getEquipment(){
+        return offensiveEquipment;
+    }
+    public Enemy getEnemy(){
+        return enemy;
     }
 }

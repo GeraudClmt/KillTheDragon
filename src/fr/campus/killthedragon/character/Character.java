@@ -1,6 +1,7 @@
 package fr.campus.killthedragon.character;
 
 import fr.campus.killthedragon.character.Inventory;
+import fr.campus.killthedragon.equipement.OffensiveEquipment;
 
 /**
  * Represents a character in the KillTheDragon game.
@@ -56,6 +57,9 @@ public class Character {
         return inventory.toString();
     }
 
+    public void setToInventory(OffensiveEquipment equipment){
+        inventory.setToInventory(equipment);
+    }
     /**
      * Gets the character's current attack points.
      * @return the attack points

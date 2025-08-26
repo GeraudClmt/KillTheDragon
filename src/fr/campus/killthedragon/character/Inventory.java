@@ -13,7 +13,7 @@ public class Inventory {
     private DefensiveEquipment def = new DefensiveEquipment();
     private OffensiveEquipment off = new OffensiveEquipment();
 
-    private ArrayList<OffensiveEquipment> listOff = new ArrayList<>(Arrays.asList(off, off));
+    private ArrayList<OffensiveEquipment> listOff = new ArrayList<>();
 
     /**
      * Returns a string listing the names of offensive equipment in the inventory.
@@ -30,5 +30,9 @@ public class Inventory {
             listToString.append(weapon.getType());
         }
         return String.valueOf(listToString);
+    }
+    
+    public void setToInventory(OffensiveEquipment equipment){
+        listOff.add(equipment);
     }
 }
