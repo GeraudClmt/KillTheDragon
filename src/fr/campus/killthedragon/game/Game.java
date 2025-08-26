@@ -41,13 +41,15 @@ public class Game {
                 board.setCaseOfGamer(diceRoll);
 
                 Case caseOfPlayer = board.getCaseOfPlayer();
-                if(caseOfPlayer.getType() == Case.CellType.BONUS){
-                    player.setToInventory(caseOfPlayer.getEquipment());
-                    menu.showMessage("Inventory " + player.getInventory());
-                } else if (caseOfPlayer.getType() == Case.CellType.ENEMY) {
-                    menu.showMessage("The fight start against " + caseOfPlayer.getEnemy().getName());
+                switch (caseOfPlayer.getType()){
+                    case BONUS :
+                            player.setToInventory(caseOfPlayer.getEquipment());
+                            menu.showMessage("Inventory " + player.getInventory());
+                            break;
+                    case ENEMY:
+                        menu.showMessage("The fight start against " + caseOfPlayer.getEnemy().getName());
+                        break;
                 }
-
             }
         }
 
