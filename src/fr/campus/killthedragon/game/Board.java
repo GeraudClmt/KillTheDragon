@@ -11,19 +11,15 @@ import java.util.Random;
  */
 public class Board {
     private final Menu menu = new Menu();
-    private int numberCase;
-    private ArrayList<Case> casesList;
-    private int nbBonusCases;
-    private int nbEnnemiesCases;
+    private final int numberCase;
+    private final ArrayList<Case> casesList;
     private int caseOfGamer = 1;
 
     /**
      * Constructs the Board with a predefined number of cases, bonus, and enemies.
      */
-    public Board(){
-        numberCase = 64;
-        nbBonusCases = 10;
-        nbEnnemiesCases = 10;
+    public Board(int numberCase, int nbBonusCases, int nbEnemiesCases){
+        this.numberCase = numberCase;
         casesList = new ArrayList<>(numberCase);
 
         for(int i = 0; i <= numberCase; i++){
@@ -35,7 +31,7 @@ public class Board {
         }
 
         setCaseBonusAndEnemy(nbBonusCases, Case.CellType.BONUS);
-        setCaseBonusAndEnemy(nbEnnemiesCases, Case.CellType.ENEMY);
+        setCaseBonusAndEnemy(nbEnemiesCases, Case.CellType.ENEMY);
     }
 
     /**

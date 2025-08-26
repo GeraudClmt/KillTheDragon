@@ -6,7 +6,7 @@ import fr.campus.killthedragon.equipement.OffensiveEquipment;
  * Represents a single cell (case) on the game board.
  */
 public class Case {
-    private CellType type;
+    private final CellType type;
     private Enemy enemy = null;
     private OffensiveEquipment  offensiveEquipment = null;
     /**

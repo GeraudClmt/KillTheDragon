@@ -8,11 +8,11 @@ import fr.campus.killthedragon.equipement.OffensiveEquipment;
  * A character has a type, name, health points, attack points, and an inventory.
  */
 public class Character {
-    private String type;
-    private String name;
+    private final String type;
+    private final String name;
     private int health = 10;
     private int attack = 4;
-    private Inventory inventory = new Inventory();
+    private final Inventory inventory = new Inventory();
 
     /**
      * Constructs a new Character instance.
