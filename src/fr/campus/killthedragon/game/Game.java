@@ -13,7 +13,7 @@ import java.util.Scanner;
  * Represents the main game logic and handles user interaction in the game.
  */
 public class Game {
-    Scanner scanner = new Scanner(System.in);
+    private Scanner scanner = new Scanner(System.in);
     private Character player = null;
     private Board board = new Board();
     private Menu menu = new Menu();
