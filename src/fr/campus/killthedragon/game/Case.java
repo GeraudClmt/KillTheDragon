@@ -2,6 +2,14 @@ package fr.campus.killthedragon.game;
 
 import fr.campus.killthedragon.enemy.Enemy;
 import fr.campus.killthedragon.equipement.*;
+import fr.campus.killthedragon.equipement.deffensive.Cape;
+import fr.campus.killthedragon.equipement.deffensive.Shield;
+import fr.campus.killthedragon.equipement.health.BigPotion;
+import fr.campus.killthedragon.equipement.health.SmallPotion;
+import fr.campus.killthedragon.equipement.offensive.Club;
+import fr.campus.killthedragon.equipement.offensive.FireBall;
+import fr.campus.killthedragon.equipement.offensive.Flash;
+import fr.campus.killthedragon.equipement.offensive.Sword;
 
 import java.util.Random;
 

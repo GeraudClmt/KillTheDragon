@@ -40,12 +40,13 @@ public class Board {
      */
     public void setCaseOfGamer(int addCase){
         menu.showMessage("You move forward " + addCase + " cases");
-        if(caseOfGamer + addCase > numberCase){
-            caseOfGamer = casesList.toArray().length - 1;
-        }else{
+        try {
             caseOfGamer += addCase;
+            menu.showMessage("You arrived on case " + caseOfGamer+ ", it's a " + casesList.get(caseOfGamer).toString() + " case.");
+        }catch (IndexOutOfBoundsException e){
+            caseOfGamer = casesList.toArray().length - 1;
+            menu.showMessage("You are arrived on the last case.");
         }
-        getCaseTypeOfPlayer();
     }
 
     /**
@@ -72,13 +73,6 @@ public class Board {
                 }
             }
         }
-    }
-
-    /**
-     * Displays the type of the case where the player currently is.
-     */
-    public void getCaseTypeOfPlayer(){
-        menu.showMessage("You arrived on case " + caseOfGamer+ ", it's a " + casesList.get(caseOfGamer).toString() + " case.");
     }
 
     public Case getCaseOfPlayer(){
