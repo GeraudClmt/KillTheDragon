@@ -1,4 +1,5 @@
 package fr.campus.killthedragon.game;
+import fr.campus.killthedragon.exception.PersonnageHorsPlateauException;
 import fr.campus.killthedragon.game.Case;
 import fr.campus.killthedragon.game.Menu;
 
@@ -41,12 +42,19 @@ public class Board {
     public void setCaseOfGamer(int addCase){
         menu.showMessage("You move forward " + addCase + " cases");
         try {
-            caseOfGamer += addCase;
+            caseOfGamer += checkIfOutTheBoard(addCase);
             menu.showMessage("You arrived on case " + caseOfGamer+ ", it's a " + casesList.get(caseOfGamer).toString() + " case.");
-        }catch (IndexOutOfBoundsException e){
+        }catch (PersonnageHorsPlateauException e){
             caseOfGamer = casesList.toArray().length - 1;
-            menu.showMessage("You are arrived on the last case.");
+            menu.showMessage(e.getMessage());
         }
+    }
+
+    public int checkIfOutTheBoard(int addCase) throws PersonnageHorsPlateauException {
+        if (addCase + caseOfGamer > casesList.toArray().length -1){
+            throw new PersonnageHorsPlateauException("You are arrived on the last case.");
+        }
+        return  addCase;
     }
 
     /**
