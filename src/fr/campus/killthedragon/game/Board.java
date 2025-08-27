@@ -52,9 +52,7 @@ public class Board {
      * Returns the current case number of the player.
      * @return the player's case number
      */
-    public int getCaseOfGamer(){
-        return caseOfGamer;
-    }
+    public int getCaseOfGamer(){return caseOfGamer;}
 
     /**
      * Assigns bonus or enemy cases randomly on the board.

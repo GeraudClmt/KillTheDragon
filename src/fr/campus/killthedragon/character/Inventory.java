@@ -1,19 +1,14 @@
 package fr.campus.killthedragon.character;
 
-import fr.campus.killthedragon.equipement.DefensiveEquipment;
-import fr.campus.killthedragon.equipement.OffensiveEquipment;
+import fr.campus.killthedragon.equipement.Equipment;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Represents an inventory which can contain offensive and defensive equipment.
  */
 public class Inventory {
-    private DefensiveEquipment def = new DefensiveEquipment();
-    private OffensiveEquipment off = new OffensiveEquipment();
-
-    private ArrayList<OffensiveEquipment> listOff = new ArrayList<>();
+    private final ArrayList<Equipment> equipmentList = new ArrayList<>();
 
     /**
      * Returns a string listing the names of offensive equipment in the inventory.
@@ -23,16 +18,16 @@ public class Inventory {
     public String toString(){
         StringBuilder listToString = new StringBuilder();
 
-        for (OffensiveEquipment weapon : listOff){
+        for (Equipment weapon : equipmentList){
             if (!listToString.isEmpty()) {
                 listToString.append(", ");
             }
-            listToString.append(weapon.getType());
+            listToString.append(weapon.getName());
         }
         return String.valueOf(listToString);
     }
     
-    public void setToInventory(OffensiveEquipment equipment){
-        listOff.add(equipment);
+    public void setToInventory(Equipment equipment){
+        equipmentList.add(equipment);
     }
 }

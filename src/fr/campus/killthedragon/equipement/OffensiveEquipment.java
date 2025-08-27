@@ -3,22 +3,19 @@ package fr.campus.killthedragon.equipement;
 /**
  * Represents an offensive equipment item used for attack.
  */
-public class OffensiveEquipment {
-    private String type = "Weapon";
-    private int attack = 2;
+public abstract class OffensiveEquipment extends Equipment{
+    protected int attack;
+    protected String characterType;
 
-    /**
-     * Returns the type of offensive equipment.
-     * @return the equipment type
-     */
-    public String getType(){
-        return type;
+    public OffensiveEquipment(){
+        super.type = EquipmentType.OFFENSIVE;
     }
-    /**
-     * Returns the attack value of the offensive equipment.
-     * @return the attack value
-     */
+
     public int getAttack(){
         return attack;
+    }
+
+    public String forCharacter(){
+        return characterType;
     }
 }

@@ -1,14 +1,17 @@
 package fr.campus.killthedragon.game;
 
 import fr.campus.killthedragon.enemy.Enemy;
-import fr.campus.killthedragon.equipement.OffensiveEquipment;
+import fr.campus.killthedragon.equipement.*;
+
+import java.util.Random;
+
 /**
  * Represents a single cell (case) on the game board.
  */
 public class Case {
     private final CellType type;
     private Enemy enemy = null;
-    private OffensiveEquipment  offensiveEquipment = null;
+    private Equipment equipment = null;
     /**
      * Constructs a new case of the given cell type.
      * @param type the type of the case
@@ -16,7 +19,7 @@ public class Case {
     public Case(CellType type){
         this.type = type;
         if(this.type == CellType.BONUS){
-            offensiveEquipment = new OffensiveEquipment();
+            equipment = getRandomEquipment();
         } else if (this.type == CellType.ENEMY) {
             enemy = new Enemy();
         }
@@ -52,10 +55,26 @@ public class Case {
         return type;
     }
 
-    public OffensiveEquipment getEquipment(){
-        return offensiveEquipment;
+    public Equipment getEquipment(){
+        return equipment;
     }
     public Enemy getEnemy(){
         return enemy;
+    }
+
+    private Equipment getRandomEquipment(){
+        Random random = new Random();
+        int randomNumber = random.nextInt(8);
+
+        return switch (randomNumber) {
+            case 0 -> new BigPotion();
+            case 1 -> new Cape();
+            case 2 -> new Club();
+            case 3 -> new FireBall();
+            case 4 -> new Flash();
+            case 5 -> new Shield();
+            case 6 -> new Sword();
+            default -> new SmallPotion();
+        };
     }
 }

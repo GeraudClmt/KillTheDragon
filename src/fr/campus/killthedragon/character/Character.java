@@ -1,28 +1,18 @@
 package fr.campus.killthedragon.character;
 
 import fr.campus.killthedragon.character.Inventory;
-import fr.campus.killthedragon.equipement.OffensiveEquipment;
+import fr.campus.killthedragon.equipement.Equipment;
 
 /**
  * Represents a character in the KillTheDragon game.
  * A character has a type, name, health points, attack points, and an inventory.
  */
-public class Character {
-    private final String type;
-    private final String name;
-    private int health = 10;
-    private int attack = 4;
+public abstract class Character {
+    protected String type;
+    protected String name;
+    protected int health;
+    protected int attack;
     private final Inventory inventory = new Inventory();
-
-    /**
-     * Constructs a new Character instance.
-     * @param type the character's type
-     * @param name the character's name
-     */
-    public Character(String type, String name) {
-        this.type = type;
-        this.name = name;
-    }
 
     /**
      * Returns a string representation of the character.
@@ -57,7 +47,7 @@ public class Character {
         return inventory.toString();
     }
 
-    public void setToInventory(OffensiveEquipment equipment){
+    public void setToInventory(Equipment equipment){
         inventory.setToInventory(equipment);
     }
     /**

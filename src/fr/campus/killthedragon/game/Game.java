@@ -1,6 +1,8 @@
 package fr.campus.killthedragon.game;
 
 import fr.campus.killthedragon.character.Character;
+import fr.campus.killthedragon.character.Mage;
+import fr.campus.killthedragon.character.Warrior;
 import fr.campus.killthedragon.game.Board;
 import fr.campus.killthedragon.game.Menu;
 import fr.campus.killthedragon.game.Dice;
@@ -31,7 +33,7 @@ public class Game {
 
             String playerType = menu.getUserInput(scanner, "What is you favorite type, Warrior or Mage ?", new ArrayList<>(Arrays.asList("Warrior", "Mage")));
             String playerName = menu.getUserInput(scanner, "Enter your name : ", null);
-            Character player = new Character(playerType, playerName);
+            Character player = typeChoice(playerType, playerName);
 
             menu.showMessage("Welcome " + player + ". You start on the case " + board.getCaseOfGamer());
 
@@ -62,6 +64,14 @@ public class Game {
      */
     public void closeScanner(){
         scanner.close();
+    }
+
+    public Character typeChoice(String type, String name){
+        if(type.equals("Mage")){
+            return new Mage(name);
+        } else {
+            return new Warrior(name);
+        }
     }
 
 }

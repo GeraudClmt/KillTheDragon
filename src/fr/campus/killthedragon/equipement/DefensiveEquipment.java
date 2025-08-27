@@ -3,22 +3,19 @@ package fr.campus.killthedragon.equipement;
 /**
  * Represents a defensive equipment item that can be used.
  */
-public class DefensiveEquipment {
-    private String type = "Potion";
-    private int stats = 4;
+public class DefensiveEquipment extends Equipment{
+    protected int defense;
+    protected String characterType;
 
-    /**
-     * Returns the type of defensive equipment.
-     * @return the equipment type
-     */
-    public String getType(){
-        return type;
+    public DefensiveEquipment(){
+        super.type = EquipmentType.DEFENSIVE;
     }
-    /**
-     * Returns the stats value of the defensive equipment.
-     * @return the stats value
-     */
-    public int getStats(){
-        return stats;
+
+    public int getDefense(){
+        return defense;
+    }
+
+    public String forCharacter(){
+        return characterType;
     }
 }
