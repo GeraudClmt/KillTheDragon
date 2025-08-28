@@ -3,10 +3,6 @@ package fr.campus.killthedragon.game;
 import fr.campus.killthedragon.character.Character;
 import fr.campus.killthedragon.character.Mage;
 import fr.campus.killthedragon.character.Warrior;
-import fr.campus.killthedragon.game.Board;
-import fr.campus.killthedragon.game.Menu;
-import fr.campus.killthedragon.game.Dice;
-import fr.campus.killthedragon.game.Case;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,23 +13,23 @@ import java.util.Scanner;
  */
 public class Game {
     private final Scanner scanner = new Scanner(System.in);
+    private Character player;
+    private final Board board = new Board(64, 10, 10);
+    private final Menu menu = new Menu();
+    private final Dice dice = new Dice();
 
     /**
      * Starts the game or allows the user to quit.
      * @return {@code true} if the player wants to restart; {@code false} to quit
      */
-    public boolean startOrQuit(){
-        Board board = new Board(64, 10, 10);
-        Menu menu = new Menu();
-        Dice dice = new Dice();
-
+    public boolean playTurn(){
         String start = menu.getUserInput(scanner,"Enter y for start the game or any to quit the game.", null);
         if(start.equals("y")){
             menu.showMessage("Great let's start :)");
 
             String playerType = menu.getUserInput(scanner, "What is you favorite type, Warrior or Mage ?", new ArrayList<>(Arrays.asList("Warrior", "Mage")));
             String playerName = menu.getUserInput(scanner, "Enter your name : ", null);
-            Character player = typeChoice(playerType, playerName);
+            player = typeChoice(playerType, playerName);
 
             menu.showMessage("Welcome " + player + ". You start on the case " + board.getCaseOfGamer());
 
@@ -42,14 +38,14 @@ public class Game {
                 int diceRoll = dice.roll();
                 board.setCaseOfGamer(diceRoll);
 
-                Case caseOfPlayer = board.getCaseOfPlayer();
-                switch (caseOfPlayer.getType()){
+                Cell cellOfPlayer = board.getCaseOfPlayer();
+                switch (cellOfPlayer.getType()){
                     case BONUS :
-                            player.setToInventory(caseOfPlayer.getEquipment());
+                            player.setToInventory(cellOfPlayer.getEquipment());
                             menu.showMessage("Inventory " + player.getInventory());
                             break;
                     case ENEMY:
-                        menu.showMessage("The fight start against " + caseOfPlayer.getEnemy().getName());
+                        menu.showMessage("The fight start against " + cellOfPlayer.getEnemy().getName());
                         break;
                 }
             }

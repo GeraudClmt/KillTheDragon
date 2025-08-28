@@ -1,7 +1,5 @@
 package fr.campus.killthedragon.game;
 import fr.campus.killthedragon.exception.PersonnageHorsPlateauException;
-import fr.campus.killthedragon.game.Case;
-import fr.campus.killthedragon.game.Menu;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -13,7 +11,7 @@ import java.util.Random;
 public class Board {
     private final Menu menu = new Menu();
     private final int numberCase;
-    private final ArrayList<Case> casesList;
+    private final ArrayList<Cell> casesList;
     private int caseOfGamer = 1;
 
     /**
@@ -25,14 +23,14 @@ public class Board {
 
         for(int i = 0; i <= numberCase; i++){
             if(i == numberCase){
-                casesList.add(new Case(Case.CellType.FINAL));
+                casesList.add(new Cell(Cell.CellType.FINAL));
             }else{
-                casesList.add(new Case(Case.CellType.EMPTY));
+                casesList.add(new Cell(Cell.CellType.EMPTY));
             }
         }
 
-        setCaseBonusAndEnemy(nbBonusCases, Case.CellType.BONUS);
-        setCaseBonusAndEnemy(nbEnemiesCases, Case.CellType.ENEMY);
+        setCaseBonusAndEnemy(nbBonusCases, Cell.CellType.BONUS);
+        setCaseBonusAndEnemy(nbEnemiesCases, Cell.CellType.ENEMY);
     }
 
     /**
@@ -68,7 +66,7 @@ public class Board {
      * @param nbCases the number of cases
      * @param type the type of case (BONUS or ENEMY)
      */
-    private void setCaseBonusAndEnemy(int nbCases, Case.CellType type){
+    private void setCaseBonusAndEnemy(int nbCases, Cell.CellType type){
         Random rand = new Random();
 
         for(int i = 0; i < nbCases; i++){
@@ -76,14 +74,14 @@ public class Board {
             while(isNotEmpty) {
                 int randomCase = rand.nextInt(numberCase - 2) + 2;
                 if (casesList.get(randomCase).isEmpty()) {
-                    casesList.set(randomCase, new Case(type));
+                    casesList.set(randomCase, new Cell(type));
                     isNotEmpty = false;
                 }
             }
         }
     }
 
-    public Case getCaseOfPlayer(){
+    public Cell getCaseOfPlayer(){
         return casesList.get(caseOfGamer);
     }
 

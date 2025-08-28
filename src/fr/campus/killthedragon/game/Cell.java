@@ -14,17 +14,17 @@ import fr.campus.killthedragon.equipement.offensive.Sword;
 import java.util.Random;
 
 /**
- * Represents a single cell (case) on the game board.
+ * Represents a single cell on the game board.
  */
-public class Case {
+public class Cell {
     private final CellType type;
     private Enemy enemy = null;
     private Equipment equipment = null;
     /**
      * Constructs a new case of the given cell type.
-     * @param type the type of the case
+     * @param type the type of the cell
      */
-    public Case(CellType type){
+    public Cell(CellType type){
         this.type = type;
         if(this.type == CellType.BONUS){
             equipment = getRandomEquipment();
@@ -43,7 +43,7 @@ public class Case {
         FINAL,
     }
     /**
-     * Checks if this case is empty.
+     * Checks if this cell is empty.
      * @return {@code true} if the case is EMPTY; {@code false} otherwise
      */
     public boolean isEmpty(){

@@ -18,7 +18,7 @@ public class Main {
 
         while(play){
             game = new Game();
-            play = game.startOrQuit();
+            play = game.playTurn();
         }
 
         game.closeScanner();
