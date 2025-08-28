@@ -47,15 +47,11 @@ public class Board {
      * Updates the player's case position by adding the given number of cases.
      * @param addCase the number of cases to move forward
      */
-    public void setCaseOfGamer(int addCase){
+    public void setCaseOfGamer(int addCase) throws PersonnageHorsPlateauException{
         menu.showMessage("You move forward " + addCase + " cases");
-        try {
-            caseOfGamer += checkIfOutTheBoard(addCase);
-            menu.showMessage("You arrived on case " + caseOfGamer+ ", it's a " + casesList.get(caseOfGamer).toString() + " case.");
-        }catch (PersonnageHorsPlateauException e){
-            caseOfGamer = casesList.toArray().length - 1;
-            menu.showMessage(e.getMessage());
-        }
+        caseOfGamer += checkIfOutTheBoard(addCase);
+        menu.showMessage("You arrived on case " + caseOfGamer+ ", it's a " + casesList.get(caseOfGamer).toString() + " case.");
+
     }
 
     public int checkIfOutTheBoard(int addCase) throws PersonnageHorsPlateauException {
@@ -63,6 +59,10 @@ public class Board {
             throw new PersonnageHorsPlateauException("You are arrived on the last case.");
         }
         return  addCase;
+    }
+
+    public void setPlayerToLastCell(){
+        caseOfGamer = casesList.toArray().length - 1;
     }
 
     /**

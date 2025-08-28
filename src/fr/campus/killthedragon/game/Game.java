@@ -4,6 +4,7 @@ import fr.campus.killthedragon.character.Character;
 import fr.campus.killthedragon.character.Mage;
 import fr.campus.killthedragon.character.Warrior;
 import fr.campus.killthedragon.equipement.Equipment;
+import fr.campus.killthedragon.exception.PersonnageHorsPlateauException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,11 +14,18 @@ import java.util.Scanner;
  * Represents the main game logic and handles user interaction in the game.
  */
 public class Game {
-    private final Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner;
     private Character player;
-    private final Board board = new Board(64, 10, 10);
-    private final Menu menu = new Menu();
-    private final Dice dice = new Dice();
+    private final Board board;
+    private final Menu menu;
+    private final Dice dice;
+
+    public Game(Menu menu){
+        scanner = new Scanner(System.in);
+        board = new Board(64, 10, 10);
+        this.menu = menu;
+        dice = new Dice();
+    }
 
     /**
      * Starts the game or allows the user to quit.
@@ -37,18 +45,23 @@ public class Game {
             while(board.getCaseOfGamer() < board.getNumberCase()){
                 menu.getUserInput(scanner, "Press enter to roll the dice.", null);
                 int diceRoll = dice.roll();
-                board.setCaseOfGamer(diceRoll);
 
-                Cell cellOfPlayer = board.getCaseOfPlayer();
-                switch (cellOfPlayer.getType()){
-                    case BONUS :
+                try {
+                    board.setCaseOfGamer(diceRoll);
+                    Cell cellOfPlayer = board.getCaseOfPlayer();
+                    switch (cellOfPlayer.getType()){
+                        case BONUS :
                             Equipment equipment = (Equipment) cellOfPlayer;
                             player.setToInventory(equipment);
                             menu.showMessage("Inventory " + player.getInventory());
                             break;
-                    case ENEMY:
-                        menu.showMessage("The fight start against " + cellOfPlayer.getName());
-                        break;
+                        case ENEMY:
+                            menu.showMessage("The fight start against " + cellOfPlayer.getName());
+                            break;
+                    }
+                }catch(PersonnageHorsPlateauException e){
+                    menu.showMessage(e.getMessage());
+                    enOfGame();
                 }
             }
         }
@@ -70,6 +83,10 @@ public class Game {
         } else {
             return new Warrior(name);
         }
+    }
+
+    public void enOfGame(){
+        board.setPlayerToLastCell();
     }
 
 }

@@ -5,7 +5,7 @@ public class Main {
     public static void main(String[] args) {
         boolean play = true;
         Menu menu = new Menu();
-        Game game = new Game();
+        Game game = new Game(menu);
 
         menu.showMessage(
                 "██   ██ ██ ██      ██          ████████ ██   ██ ███████     ██████  ██████   █████   ██████   ██████  ███    ██ \n" +
@@ -17,7 +17,7 @@ public class Main {
                 "                                                                                                                ");
 
         while(play){
-            game = new Game();
+            game = new Game(menu);
             play = game.playTurn();
         }
 
