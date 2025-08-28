@@ -1,6 +1,5 @@
 package fr.campus.killthedragon.character;
 
-import fr.campus.killthedragon.character.Inventory;
 import fr.campus.killthedragon.equipement.Equipment;
 
 /**

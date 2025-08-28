@@ -3,6 +3,7 @@ package fr.campus.killthedragon.game;
 import fr.campus.killthedragon.character.Character;
 import fr.campus.killthedragon.character.Mage;
 import fr.campus.killthedragon.character.Warrior;
+import fr.campus.killthedragon.equipement.Equipment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,11 +42,12 @@ public class Game {
                 Cell cellOfPlayer = board.getCaseOfPlayer();
                 switch (cellOfPlayer.getType()){
                     case BONUS :
-                            player.setToInventory(cellOfPlayer.getEquipment());
+                            Equipment equipment = (Equipment) cellOfPlayer;
+                            player.setToInventory(equipment);
                             menu.showMessage("Inventory " + player.getInventory());
                             break;
                     case ENEMY:
-                        menu.showMessage("The fight start against " + cellOfPlayer.getEnemy().getName());
+                        menu.showMessage("The fight start against " + cellOfPlayer.getName());
                         break;
                 }
             }

@@ -1,4 +1,14 @@
 package fr.campus.killthedragon.game;
+import fr.campus.killthedragon.enemy.Enemy;
+import fr.campus.killthedragon.equipement.Equipment;
+import fr.campus.killthedragon.equipement.deffensive.Cape;
+import fr.campus.killthedragon.equipement.deffensive.Shield;
+import fr.campus.killthedragon.equipement.health.BigPotion;
+import fr.campus.killthedragon.equipement.health.SmallPotion;
+import fr.campus.killthedragon.equipement.offensive.Club;
+import fr.campus.killthedragon.equipement.offensive.FireBall;
+import fr.campus.killthedragon.equipement.offensive.Flash;
+import fr.campus.killthedragon.equipement.offensive.Sword;
 import fr.campus.killthedragon.exception.PersonnageHorsPlateauException;
 
 import java.util.ArrayList;
@@ -23,9 +33,9 @@ public class Board {
 
         for(int i = 0; i <= numberCase; i++){
             if(i == numberCase){
-                casesList.add(new Cell(Cell.CellType.FINAL));
+                casesList.add(new FinalCell());
             }else{
-                casesList.add(new Cell(Cell.CellType.EMPTY));
+                casesList.add(new EmptyCell());
             }
         }
 
@@ -68,17 +78,24 @@ public class Board {
      */
     private void setCaseBonusAndEnemy(int nbCases, Cell.CellType type){
         Random rand = new Random();
+        Cell cell;
 
         for(int i = 0; i < nbCases; i++){
+            if(type == Cell.CellType.ENEMY) {
+                cell = new Enemy();
+            }else{
+                cell = getRandomEquipment();
+            }
             boolean isNotEmpty = true;
             while(isNotEmpty) {
                 int randomCase = rand.nextInt(numberCase - 2) + 2;
                 if (casesList.get(randomCase).isEmpty()) {
-                    casesList.set(randomCase, new Cell(type));
+                    casesList.set(randomCase, cell);
                     isNotEmpty = false;
                 }
             }
         }
+
     }
 
     public Cell getCaseOfPlayer(){
@@ -87,5 +104,21 @@ public class Board {
 
     public int getNumberCase(){
         return numberCase;
+    }
+
+    private Equipment getRandomEquipment(){
+        Random random = new Random();
+        int randomNumber = random.nextInt(8);
+
+        return switch (randomNumber) {
+            case 0 -> new BigPotion();
+            case 1 -> new Cape();
+            case 2 -> new Club();
+            case 3 -> new FireBall();
+            case 4 -> new Flash();
+            case 5 -> new Shield();
+            case 6 -> new Sword();
+            default -> new SmallPotion();
+        };
     }
 }

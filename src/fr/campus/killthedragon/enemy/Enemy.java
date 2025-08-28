@@ -1,12 +1,14 @@
 package fr.campus.killthedragon.enemy;
 
+import fr.campus.killthedragon.game.Cell;
+
 /**
  * Represents an enemy character in the game.
  */
-public class Enemy {
-    private final String name = "Roudoudou";
+public class Enemy extends Cell {
 
-    public String getName(){
-        return this.name;
+    public Enemy(){
+        super.name = "Roudoudou";
+        super.cellType = CellType.ENEMY;
     }
 }

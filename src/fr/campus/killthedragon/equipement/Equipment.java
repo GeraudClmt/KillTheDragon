@@ -1,19 +1,16 @@
 package fr.campus.killthedragon.equipement;
 
-public abstract class Equipment {
-    protected String name;
+import fr.campus.killthedragon.game.Cell;
+
+public abstract class Equipment extends Cell {
     protected EquipmentType type;
 
+    public Equipment(){
+        super.cellType = CellType.BONUS;
+    }
     public enum EquipmentType{
         OFFENSIVE,
         DEFENSIVE,
         HEALTH,
-    }
-
-    public EquipmentType getType(){
-        return type;
-    }
-    public String getName(){
-        return name;
     }
 }
