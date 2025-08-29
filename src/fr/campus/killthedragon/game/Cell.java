@@ -5,8 +5,11 @@ package fr.campus.killthedragon.game;
  */
 public abstract class Cell {
     protected CellType cellType;
-    protected String name = null;
+    protected String name;
 
+    public Cell(){
+        name = null;
+    }
     /**
      * Cell types for the board (empty, bonus, enemy, final).
      */

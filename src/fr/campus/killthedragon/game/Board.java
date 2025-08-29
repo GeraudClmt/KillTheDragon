@@ -19,15 +19,17 @@ import java.util.Random;
  * Represents the game board containing cases for the player to move on.
  */
 public class Board {
-    private final Menu menu = new Menu();
+    private final Menu menu;
     private final int numberCase;
     private final ArrayList<Cell> casesList;
-    private int caseOfGamer = 1;
+    private int caseOfGamer;
 
     /**
      * Constructs the Board with a predefined number of cases, bonus, and enemies.
      */
     public Board(int numberCase, int nbBonusCases, int nbEnemiesCases){
+        menu = new Menu();
+        caseOfGamer = 1;
         this.numberCase = numberCase;
         casesList = new ArrayList<>(numberCase);
 
