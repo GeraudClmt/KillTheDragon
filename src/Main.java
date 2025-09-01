@@ -1,8 +1,15 @@
 import fr.campus.killthedragon.game.Game;
 import fr.campus.killthedragon.game.Menu;
+import fr.campus.killthedragon.db.DBConnection;
+
 public class Main {
 
     public static void main(String[] args) {
+        DBConnection base = new DBConnection();
+        //base.getHeroes();
+
+        //base.getCharacter("toto");
+
         boolean play = true;
         Menu menu = new Menu();
         Game game = new Game(menu);
@@ -23,5 +30,7 @@ public class Main {
 
         game.closeScanner();
         menu.showMessage("Good bye :/");
+
+
     }
 }

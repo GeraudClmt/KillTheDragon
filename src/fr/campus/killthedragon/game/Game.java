@@ -5,6 +5,7 @@ import fr.campus.killthedragon.character.Mage;
 import fr.campus.killthedragon.character.Warrior;
 import fr.campus.killthedragon.equipement.Equipment;
 import fr.campus.killthedragon.exception.PersonnageHorsPlateauException;
+import fr.campus.killthedragon.db.DBConnection;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,12 +20,14 @@ public class Game {
     private final Board board;
     private final Menu menu;
     private final Dice dice;
+    private DBConnection dataBase;
 
     public Game(Menu menu){
         scanner = new Scanner(System.in);
         board = new Board(64, 10, 10);
         this.menu = menu;
         dice = new Dice();
+        dataBase = new DBConnection();
     }
 
     /**
@@ -39,6 +42,11 @@ public class Game {
             String playerType = menu.getUserInput(scanner, "What is you favorite type, Warrior or Mage ?", new ArrayList<>(Arrays.asList("Warrior", "Mage")));
             String playerName = menu.getUserInput(scanner, "Enter your name : ", null);
             player = typeChoice(playerType, playerName);
+
+            player = dataBase.createHero(player);
+            String newName = menu.getUserInput(scanner, "Enter new name ", null);
+            player = dataBase.editHero(player, newName);
+            dataBase.changeLifePoints(player, 100);
 
             menu.showMessage("Welcome " + player + ". You start on the case " + board.getCaseOfGamer());
 

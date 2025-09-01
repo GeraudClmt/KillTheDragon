@@ -47,13 +47,24 @@ public abstract class Character {
     }
 
     public void setToInventory(Equipment equipment){
-        inventory.setToInventory(equipment);
+        inventory.addToInventory(equipment);
     }
     /**
      * Gets the character's current attack points.
      * @return the attack points
      */
     public int getAttack() {
-        return this.attack;
+        return attack;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public String getName() {
+        return name;
+    }
+    public String getType() {
+        return type;
     }
 }

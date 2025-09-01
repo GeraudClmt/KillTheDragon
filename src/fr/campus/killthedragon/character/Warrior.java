@@ -8,4 +8,12 @@ public class Warrior extends Character{
         super.health = 10;
         super.attack = 5;
     }
+    public Warrior(String name, int health, int attack){
+        super.name = name;
+        super.type = "Warrior";
+        super.health = 10;
+        super.attack = 5;
+        super.health = health;
+        super.attack = attack;
+    }
 }
