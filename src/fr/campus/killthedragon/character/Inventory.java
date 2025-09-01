@@ -8,8 +8,11 @@ import java.util.ArrayList;
  * Represents an inventory which can contain offensive and defensive equipment.
  */
 public class Inventory {
-    private final ArrayList<Equipment> equipmentList = new ArrayList<>();
+    private final ArrayList<Equipment> equipmentList;
 
+    public Inventory(){
+        equipmentList = new ArrayList<>();
+    }
     /**
      * Returns a string listing the names of offensive equipment in the inventory.
      * @return a string of weapon types in the inventory
@@ -27,7 +30,18 @@ public class Inventory {
         return String.valueOf(listToString);
     }
     
-    public void setToInventory(Equipment equipment){
+    public void addToInventory(Equipment equipment){
         equipmentList.add(equipment);
+    }
+
+    public void removeAllInventory(){ equipmentList.clear();}
+
+    public void removeToInventory(String equipmentName){
+        for(int i = 0; i < equipmentList.size(); i++){
+            if(equipmentName.equals(equipmentList.get(i).getName())){
+                equipmentList.remove(i);
+                break;
+            }
+        }
     }
 }
