@@ -4879,75 +4879,66 @@ ATTR_NAME</ColNames>
       <Position>4</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <foreign-key id="1139" parent="380" name="Board_id">
-      <ColNames>Board_id</ColNames>
-      <RefColNames>id</RefColNames>
-      <RefTableName>Board</RefTableName>
-    </foreign-key>
-    <index id="1140" parent="380" name="PRIMARY">
+    <index id="1139" parent="380" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="1141" parent="380" name="Board_id">
-      <ColNames>Board_id</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="1142" parent="380" name="PRIMARY">
+    <key id="1140" parent="380" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="1143" parent="381" name="id">
+    <column id="1141" parent="381" name="id">
       <AutoIncrement>1</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="1144" parent="381" name="Type">
+    <column id="1142" parent="381" name="Type">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>enum(&apos;Mage&apos;, &apos;Warrior&apos;)|0e</StoredType>
     </column>
-    <column id="1145" parent="381" name="Name">
+    <column id="1143" parent="381" name="Name">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>varchar(10)|0s</StoredType>
     </column>
-    <column id="1146" parent="381" name="Strength">
+    <column id="1144" parent="381" name="Strength">
       <DefaultExpression>0</DefaultExpression>
       <Position>4</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="1147" parent="381" name="OffensiveEquipment">
+    <column id="1145" parent="381" name="OffensiveEquipment">
       <Position>5</Position>
       <StoredType>text|0s</StoredType>
     </column>
-    <column id="1148" parent="381" name="DefensiveEquipment">
+    <column id="1146" parent="381" name="DefensiveEquipment">
       <Position>6</Position>
       <StoredType>text|0s</StoredType>
     </column>
-    <column id="1149" parent="381" name="LifePoints">
+    <column id="1147" parent="381" name="LifePoints">
       <DefaultExpression>0</DefaultExpression>
       <Position>7</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <index id="1150" parent="381" name="PRIMARY">
+    <index id="1148" parent="381" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="1151" parent="381" name="Character_pk">
+    <index id="1149" parent="381" name="Character_pk">
       <ColNames>Name</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="1152" parent="381" name="PRIMARY">
+    <key id="1150" parent="381" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <key id="1153" parent="381" name="Character_pk">
+    <key id="1151" parent="381" name="Character_pk">
       <UnderlyingIndexName>Character_pk</UnderlyingIndexName>
     </key>
   </database-model>

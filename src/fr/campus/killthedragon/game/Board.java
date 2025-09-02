@@ -123,4 +123,8 @@ public class Board {
             default -> new SmallPotion();
         };
     }
+
+    public void addCellToBoard(int index, Cell cell){
+        casesList.set(index, cell);
+    }
 }

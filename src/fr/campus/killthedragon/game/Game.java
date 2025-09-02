@@ -44,10 +44,10 @@ public class Game {
             player = typeChoice(playerType, playerName);
 
             player = dataBase.createHero(player);
-            String newName = menu.getUserInput(scanner, "Enter new name ", null);
-            player = dataBase.editHero(player, newName);
+            //String newName = menu.getUserInput(scanner, "Enter new name ", null);
+            //player = dataBase.editHero(player, newName);
             dataBase.changeLifePoints(player, 100);
-
+            player = dataBase.getCharacter(player.getName());
             menu.showMessage("Welcome " + player + ". You start on the case " + board.getCaseOfGamer());
 
             while(board.getCaseOfGamer() < board.getNumberCase()){

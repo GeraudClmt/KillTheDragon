@@ -5,26 +5,30 @@ import fr.campus.killthedragon.character.Mage;
 import fr.campus.killthedragon.character.Warrior;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CharacterDB extends DBConnection{
 
-    public void getHeroes(){
+    //Return List
+    public List<Character> getHeroes(){
+        List<Character> listOfHeros = new ArrayList<>();
         try(Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);) {
             Statement stmt = connection.createStatement();
             ResultSet rs2 = stmt.executeQuery("SELECT * FROM `Character`");
 
             while (rs2.next()){
-                System.out.println("-------------------------------------------");
-                System.out.println("Id= " + rs2.getInt("Id"));
-                System.out.println("Type= " + rs2.getString("Type"));
-                System.out.println("Name= " + rs2.getString("Name"));
-                System.out.println("Strength= " + rs2.getInt("Strength"));
-                System.out.println("LifePoints= " + rs2.getInt("LifePoints"));
+                if(rs2.getString("Type").equals("Warrior")){
+                    listOfHeros.add(new Warrior(rs2.getString("Name"), rs2.getInt("LifePoints"), rs2.getInt("Strength")));
+                }else {
+                    listOfHeros.add(new Mage(rs2.getString("Name"), rs2.getInt("LifePoints"), rs2.getInt("Strength")));
+                }
             }
 
         }catch (SQLException e) {
             e.printStackTrace();
         }
+        return listOfHeros;
     }
     public Character createHero(Character player){
         String sqlRequest = "INSERT into  `Character` (Type, Name, Strength, LifePoints) VALUES (?, ?, ?, ?)";
@@ -43,7 +47,6 @@ public class CharacterDB extends DBConnection{
         }catch (SQLException e) {
             e.printStackTrace();
         }
-
         return getCharacter(player.getName());
     }
 

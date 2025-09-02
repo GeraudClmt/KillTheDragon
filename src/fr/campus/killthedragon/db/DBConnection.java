@@ -15,4 +15,6 @@ public abstract class DBConnection {
        USER = "user";
        PASS = "password";
     }
+
+
 }

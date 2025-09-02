@@ -3,12 +3,13 @@ package fr.campus.killthedragon.character;
 import fr.campus.killthedragon.equipement.Equipment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents an inventory which can contain offensive and defensive equipment.
  */
 public class Inventory {
-    private final ArrayList<Equipment> equipmentList;
+    private final List<Equipment> equipmentList;
 
     public Inventory(){
         equipmentList = new ArrayList<>();
@@ -34,7 +35,9 @@ public class Inventory {
         equipmentList.add(equipment);
     }
 
-    public void removeAllInventory(){ equipmentList.clear();}
+    public void removeAllInventory(){
+        equipmentList.clear();
+    }
 
     public void removeToInventory(String equipmentName){
         for(int i = 0; i < equipmentList.size(); i++){
@@ -43,5 +46,9 @@ public class Inventory {
                 break;
             }
         }
+    }
+
+    public void removeFromInventory(Equipment equipment){
+        equipmentList.remove(equipment);
     }
 }
