@@ -5,7 +5,7 @@ import fr.campus.killthedragon.character.Mage;
 import fr.campus.killthedragon.character.Warrior;
 import fr.campus.killthedragon.equipement.Equipment;
 import fr.campus.killthedragon.exception.PersonnageHorsPlateauException;
-import fr.campus.killthedragon.db.DBConnection;
+import fr.campus.killthedragon.db.CharacterDB;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,14 +20,14 @@ public class Game {
     private final Board board;
     private final Menu menu;
     private final Dice dice;
-    private DBConnection dataBase;
+    private CharacterDB dataBase;
 
     public Game(Menu menu){
         scanner = new Scanner(System.in);
         board = new Board(64, 10, 10);
         this.menu = menu;
         dice = new Dice();
-        dataBase = new DBConnection();
+        dataBase = new CharacterDB();
     }
 
     /**

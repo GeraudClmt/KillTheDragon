@@ -1,14 +1,12 @@
 import fr.campus.killthedragon.game.Game;
 import fr.campus.killthedragon.game.Menu;
-import fr.campus.killthedragon.db.DBConnection;
+import fr.campus.killthedragon.db.CharacterDB;
 
 public class Main {
 
     public static void main(String[] args) {
-        DBConnection base = new DBConnection();
-        //base.getHeroes();
-
-        //base.getCharacter("toto");
+        CharacterDB allCharacters = new CharacterDB();
+        allCharacters.getHeroes();
 
         boolean play = true;
         Menu menu = new Menu();

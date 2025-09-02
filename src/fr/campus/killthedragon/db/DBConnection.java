@@ -5,112 +5,14 @@ import fr.campus.killthedragon.character.Mage;
 import fr.campus.killthedragon.character.Warrior;
 
 import java.sql.*;
-public class DBConnection {
-    private final String DB_URL;
-    private final String USER;
-    private final String PASS;
+public abstract class DBConnection {
+    protected final String DB_URL;
+    protected final String USER;
+    protected final String PASS;
 
     public DBConnection(){
        DB_URL = "jdbc:mysql://localhost/kill_the_dragon";
        USER = "user";
        PASS = "password";
-    }
-    public void getHeroes(){
-           try(Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);) {
-               Statement stmt = connection.createStatement();
-               ResultSet rs2 = stmt.executeQuery("SELECT * FROM `Character`");
-
-               while (rs2.next()){
-                   System.out.println("-------------------------------------------");
-                   System.out.println("Id= " + rs2.getInt("Id"));
-                   System.out.println("Type= " + rs2.getString("Type"));
-                   System.out.println("Name= " + rs2.getString("Name"));
-                   System.out.println("Strength= " + rs2.getInt("Strength"));
-                   System.out.println("LifePoints= " + rs2.getInt("LifePoints"));
-               }
-
-           }catch (SQLException e) {
-               e.printStackTrace();
-           }
-    }
-    public Character createHero(Character player){
-        String sqlRequest = "INSERT into  `Character` (Type, Name, Strength, LifePoints) VALUES (?, ?, ?, ?)";
-        try(Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);) {
-            PreparedStatement ps = connection.prepareStatement(sqlRequest);
-            ps.setString(1, player.getType());
-            ps.setString(2, player.getName());
-            ps.setInt(3, player.getAttack());
-            ps.setInt(4, player.getHealth());
-
-            ps.executeUpdate();
-
-
-        }catch (SQLIntegrityConstraintViolationException e) {
-            System.out.println("Name already exists");
-        }catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return getCharacter(player.getName());
-    }
-
-    public Character editHero(Character player, String newName){
-        String sqlRequest = "UPDATE `Character` SET Type = ?, Name = ?, Strength = ?, LifePoints = ? WHERE Name = ?  ";
-        try(Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);) {
-            PreparedStatement ps = connection.prepareStatement(sqlRequest);
-            ps.setString(1, player.getType());
-            ps.setString(2, newName);
-            ps.setInt(3, player.getAttack());
-            ps.setInt(4, player.getHealth());
-            ps.setString(5, player.getName());
-
-            ps.executeUpdate();
-
-        }catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return getCharacter(newName);
-    }
-
-    public void changeLifePoints(Character player, int newLifePoints){
-        String sqlRequest = "UPDATE `Character` SET LifePoints = ? WHERE Name = ?";
-        try(Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);) {
-            PreparedStatement ps = connection.prepareStatement(sqlRequest);
-            ps.setInt(1, newLifePoints);
-            ps.setString(2, player.getName());
-
-            int result = ps.executeUpdate();
-            if(result == 0){
-                System.out.println( "No lines have been modified" );
-            }
-        }catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public Character getCharacter(String name){
-        String request = "SELECT * FROM `Character` WHERE Name = ?";
-        try(Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);) {
-            PreparedStatement ps = connection.prepareStatement(request);
-            ps.setString(1, name);
-
-            ResultSet rs = ps.executeQuery();
-
-            if(rs.next()){
-                return switch (rs.getString("Type")) {
-                    case ("Mage") -> new Mage(rs.getString("Name"), rs.getInt("LifePoints"), rs.getInt("Strength"));
-                    case ("Warrior") ->
-                            new Warrior(rs.getString("Name"), rs.getInt("LifePoints"), rs.getInt("Strength"));
-                    default -> null;
-                };
-            }else {
-                System.out.println("No characters found with the name : " + name);
-                return null;
-            }
-        }catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }
