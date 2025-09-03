@@ -24,7 +24,7 @@ public class Game {
 
     public Game(Menu menu){
         scanner = new Scanner(System.in);
-        board = new Board(64, 10, 10);
+        board = new Board(64);
         this.menu = menu;
         dice = new Dice();
         dataBase = new CharacterDB();
@@ -57,16 +57,21 @@ public class Game {
                 try {
                     board.setCaseOfGamer(diceRoll);
                     Cell cellOfPlayer = board.getCaseOfPlayer();
-                    switch (cellOfPlayer.getType()){
+                    switch (cellOfPlayer.interact()){
                         case BONUS :
-                            Equipment equipment = (Equipment) cellOfPlayer;
-                            player.setToInventory(equipment);
-                            menu.showMessage("Inventory " + player.getInventory());
+                            if(cellOfPlayer instanceof Equipment equipment){
+                                player.setToInventory(equipment);
+                                menu.showMessage("Inventory " + player.getInventory());
+                            }else{
+                                menu.showMessage("The cell is not an equipment !!!.");
+                            }
                             break;
                         case ENEMY:
                             menu.showMessage("The fight start against " + cellOfPlayer.getName());
                             break;
                     }
+                }catch (ClassCastException e){
+                    menu.showMessage("Can't store in the inventory because the case is not a equipment.");
                 }catch(PersonnageHorsPlateauException e){
                     menu.showMessage(e.getMessage());
                     enOfGame();

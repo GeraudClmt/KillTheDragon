@@ -15,7 +15,7 @@ public class Main {
         Game game = new Game(menu);
 
 
-        CharacterDB allCharacters = new CharacterDB();
+        /*CharacterDB allCharacters = new CharacterDB();
         List<Character> listOfCharacter =  allCharacters.getHeroes();
 
         for (Character character : listOfCharacter){
@@ -23,7 +23,7 @@ public class Main {
         }
 
         CellDB allCells = new CellDB();
-        Board boardDB = allCells.getBoardOfPlayer("titi");
+        Board boardDB = allCells.getBoardOfPlayer("titi");*/
 
 
         menu.showMessage(

@@ -1,7 +1,10 @@
 package fr.campus.killthedragon.db;
 
 
+import fr.campus.killthedragon.enemy.Dragon;
 import fr.campus.killthedragon.enemy.Enemy;
+import fr.campus.killthedragon.enemy.Gobelin;
+import fr.campus.killthedragon.enemy.Wizard;
 import fr.campus.killthedragon.equipement.deffensive.Cape;
 import fr.campus.killthedragon.equipement.deffensive.Shield;
 import fr.campus.killthedragon.equipement.health.BigPotion;
@@ -18,7 +21,7 @@ import java.sql.*;
 public class CellDB extends DBConnection {
 
     public Board getBoardOfPlayer(String playerName) {
-        Board boardDb = new Board(64, 0, 0);
+        Board boardDb = new Board(64);
         String request = "SELECT Cell.* FROM Cell JOIN Board ON Cell.board_id = Board.id JOIN `Character` ON Board.character_id = `Character`.id WHERE `Character`.name = ?;";
 
         try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);) {
@@ -35,8 +38,14 @@ public class CellDB extends DBConnection {
                 Cell cellOfData = null;
 
                 switch (rs2.getString("Content")) {
-                    case "Enemy":
-                        cellOfData = new Enemy();
+                    case "Dragon":
+                        cellOfData = new Dragon();
+                        break;
+                    case "Gobelin":
+                        cellOfData = new Gobelin();
+                        break;
+                    case "Wizard":
+                        cellOfData = new Wizard();
                         break;
                     case "Cape":
                         cellOfData = new Cape();

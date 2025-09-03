@@ -1,5 +1,7 @@
 package fr.campus.killthedragon.game;
 
+import fr.campus.killthedragon.character.Character;
+
 /**
  * Represents a single cell on the game board.
  */
@@ -36,7 +38,7 @@ public abstract class Cell {
         return cellType.name();
     }
 
-    public CellType getType(){
+    public CellType interact(){
         return cellType;
     }
 

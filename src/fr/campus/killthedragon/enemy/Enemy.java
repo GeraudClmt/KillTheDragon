@@ -5,10 +5,10 @@ import fr.campus.killthedragon.game.Cell;
 /**
  * Represents an enemy character in the game.
  */
-public class Enemy extends Cell {
-
+public abstract class Enemy extends Cell {
+    protected int attack;
+    protected int health;
     public Enemy(){
-        super.name = "Roudoudou";
         super.cellType = CellType.ENEMY;
     }
 }

@@ -1,5 +1,8 @@
 package fr.campus.killthedragon.game;
+import fr.campus.killthedragon.enemy.Dragon;
 import fr.campus.killthedragon.enemy.Enemy;
+import fr.campus.killthedragon.enemy.Gobelin;
+import fr.campus.killthedragon.enemy.Wizard;
 import fr.campus.killthedragon.equipement.Equipment;
 import fr.campus.killthedragon.equipement.deffensive.Cape;
 import fr.campus.killthedragon.equipement.deffensive.Shield;
@@ -12,6 +15,8 @@ import fr.campus.killthedragon.equipement.offensive.Sword;
 import fr.campus.killthedragon.exception.PersonnageHorsPlateauException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 
@@ -27,7 +32,19 @@ public class Board {
     /**
      * Constructs the Board with a predefined number of cases, bonus, and enemies.
      */
-    public Board(int numberCase, int nbBonusCases, int nbEnemiesCases){
+    public Board(int numberCase){
+        int dragonCases = 4;
+        int wizardCases = 10;
+        int gobelinCases = 10;
+
+        int clubCases = 5;
+        int swordCases = 4;
+        int flashCases = 5;
+        int fireballCases = 2;
+        int bigPotionCases = 6;
+        int smallCases = 2;
+
+
         menu = new Menu();
         caseOfGamer = 1;
         this.numberCase = numberCase;
@@ -41,8 +58,17 @@ public class Board {
             }
         }
 
-        setCaseBonusAndEnemy(nbBonusCases, Cell.CellType.BONUS);
-        setCaseBonusAndEnemy(nbEnemiesCases, Cell.CellType.ENEMY);
+        setCaseOnTheBoard(dragonCases, new Dragon());
+        setCaseOnTheBoard(wizardCases, new Wizard());
+        setCaseOnTheBoard(gobelinCases, new Gobelin());
+
+        setCaseOnTheBoard(clubCases, new Club());
+        setCaseOnTheBoard(swordCases, new Sword());
+        setCaseOnTheBoard(flashCases, new Flash());
+        setCaseOnTheBoard(fireballCases, new FireBall());
+        setCaseOnTheBoard(bigPotionCases, new BigPotion());
+        setCaseOnTheBoard(smallCases, new SmallPotion());
+
     }
 
     /**
@@ -76,18 +102,11 @@ public class Board {
     /**
      * Assigns bonus or enemy cases randomly on the board.
      * @param nbCases the number of cases
-     * @param type the type of case (BONUS or ENEMY)
      */
-    private void setCaseBonusAndEnemy(int nbCases, Cell.CellType type){
+    private void setCaseOnTheBoard(int nbCases, Cell cell){
         Random rand = new Random();
-        Cell cell;
 
         for(int i = 0; i < nbCases; i++){
-            if(type == Cell.CellType.ENEMY) {
-                cell = new Enemy();
-            }else{
-                cell = getRandomEquipment();
-            }
             boolean isNotEmpty = true;
             while(isNotEmpty) {
                 int randomCase = rand.nextInt(numberCase - 2) + 2;
@@ -108,23 +127,8 @@ public class Board {
         return numberCase;
     }
 
-    private Equipment getRandomEquipment(){
-        Random random = new Random();
-        int randomNumber = random.nextInt(8);
-
-        return switch (randomNumber) {
-            case 0 -> new BigPotion();
-            case 1 -> new Cape();
-            case 2 -> new Club();
-            case 3 -> new FireBall();
-            case 4 -> new Flash();
-            case 5 -> new Shield();
-            case 6 -> new Sword();
-            default -> new SmallPotion();
-        };
-    }
-
     public void addCellToBoard(int index, Cell cell){
         casesList.set(index, cell);
     }
+
 }
