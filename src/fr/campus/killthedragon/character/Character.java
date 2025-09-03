@@ -53,9 +53,7 @@ public abstract class Character {
      * Gets the character's current attack points.
      * @return the attack points
      */
-    public int getAttack() {
-        return attack;
-    }
+
 
     public int getHealth() {
         return health;
@@ -66,5 +64,13 @@ public abstract class Character {
     }
     public String getType() {
         return type;
+    }
+
+    public int getAttack() {
+        return attack;
+    }
+    public int looseHealth(int attack) {
+        health -= attack;
+        return health;
     }
 }

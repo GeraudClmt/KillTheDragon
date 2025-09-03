@@ -3,6 +3,7 @@ package fr.campus.killthedragon.game;
 import fr.campus.killthedragon.character.Character;
 import fr.campus.killthedragon.character.Mage;
 import fr.campus.killthedragon.character.Warrior;
+import fr.campus.killthedragon.enemy.Enemy;
 import fr.campus.killthedragon.equipement.Equipment;
 import fr.campus.killthedragon.exception.PersonnageHorsPlateauException;
 import fr.campus.killthedragon.db.CharacterDB;
@@ -46,7 +47,7 @@ public class Game {
             player = dataBase.createHero(player);
             //String newName = menu.getUserInput(scanner, "Enter new name ", null);
             //player = dataBase.editHero(player, newName);
-            dataBase.changeLifePoints(player, 100);
+            dataBase.changeLifePoints(player, 10);
             player = dataBase.getCharacter(player.getName());
             menu.showMessage("Welcome " + player + ". You start on the case " + board.getCaseOfGamer());
 
@@ -63,18 +64,28 @@ public class Game {
                                 player.setToInventory(equipment);
                                 menu.showMessage("Inventory " + player.getInventory());
                             }else{
-                                menu.showMessage("The cell is not an equipment !!!.");
+                                menu.showMessage("The cell is not an equipment !!!");
                             }
                             break;
                         case ENEMY:
-                            menu.showMessage("The fight start against " + cellOfPlayer.getName());
+                            if(cellOfPlayer instanceof Enemy enemy){
+                                fight(enemy);
+                            }else{
+                                menu.showMessage("The cell is not an enemy !!!");
+                            }
                             break;
                     }
                 }catch (ClassCastException e){
                     menu.showMessage("Can't store in the inventory because the case is not a equipment.");
                 }catch(PersonnageHorsPlateauException e){
                     menu.showMessage(e.getMessage());
+                    menu.showMessage("You win");
                     enOfGame();
+                }
+
+                if(player.getHealth() <= 0){
+                    enOfGame();
+                    menu.showMessage("You lose!");
                 }
             }
         }
@@ -100,6 +111,17 @@ public class Game {
 
     public void enOfGame(){
         board.setPlayerToLastCell();
+    }
+
+    public void fight(Enemy enemy){
+        menu.showMessage("The fight start against " + enemy.getName());
+        menu.showMessage("You attack " + enemy.getName());
+        int enemyHealth = enemy.loseHealth(player.getAttack());
+        menu.showMessage(enemy.getName() + "Health : " + enemyHealth);
+        menu.showMessage(enemy.getName() + " attacks you");
+        int playerHealth = player.looseHealth(enemy.getAttack());
+        menu.showMessage("You have " + playerHealth+ " life points");
+        menu.showMessage(enemy.getName() + " fled");
     }
 
 }

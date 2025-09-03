@@ -11,4 +11,12 @@ public abstract class Enemy extends Cell {
     public Enemy(){
         super.cellType = CellType.ENEMY;
     }
+    public int getAttack(){
+        return attack;
+    }
+    public int loseHealth(int attack){
+        health -= attack;
+        return health;
+    }
+
 }
