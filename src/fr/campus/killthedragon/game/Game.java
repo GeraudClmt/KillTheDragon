@@ -12,6 +12,7 @@ import fr.campus.killthedragon.db.CharacterDB;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -67,6 +68,7 @@ public class Game {
                         case BONUS:
                             menu.printChest();
                             if (cellOfPlayer instanceof Equipment equipment) {
+                                menu.showMessage("You found " + equipment.getName() + " in chest.");
                                 player.setToInventory(equipment);
                                 //menu.showMessage("Inventory " + player.getInventory());
                                 if (equipment instanceof OffensiveEquipment offensiveEquipment) {
@@ -89,7 +91,13 @@ public class Game {
                             break;
                         case ENEMY:
                             if (cellOfPlayer instanceof Enemy enemy) {
-                                fight(enemy);
+                                menu.showMessage("The enemy is a " + enemy.getName());
+                                String run = menu.getUserInput(scanner, "Enter r to run or enter to fight", null);
+                                if(run.equals("r")){
+                                    run();
+                                }else {
+                                    fight(enemy);
+                                }
                             } else {
                                 menu.showMessage("The cell is not an enemy !!!");
                             }
@@ -100,12 +108,12 @@ public class Game {
                 } catch (PersonnageHorsPlateauException e) {
                     menu.showMessage(e.getMessage());
                     menu.showMessage("You win");
-                    enOfGame();
+                    endOfGame();
                 }
 
                 if (player.getHealth() <= 0) {
-                    enOfGame();
-                    menu.showMessage("You lose!");
+                    endOfGame();
+                    menu.showMessage("Game over !");
                 }
             }
         }
@@ -129,7 +137,7 @@ public class Game {
         }
     }
 
-    public void enOfGame() {
+    public void endOfGame() {
         board.setPlayerToLastCell();
     }
 
@@ -145,19 +153,42 @@ public class Game {
                 menu.printGobelin();
                 break;
         }
-        menu.showMessage("The fight start against " + enemy.getName());
-        menu.showMessage("You attack " + enemy.getName());
-        int enemyHealth = enemy.looseHealth(player.getAttack());
+        if(enemy.getHealth() <= 0){
+            menu.showMessage(enemy.getName() + " is already dead.");
+            return;
+        }
 
-        if (enemyHealth <= 0) {
-            menu.showMessage(enemy.getName() + " is dead");
-        } else {
-            menu.showMessage(enemy.getName() + "Health : " + enemyHealth);
-            menu.showMessage(enemy.getName() + " attacks you");
-            int playerHealth = player.looseHealth(enemy.getAttack());
-            menu.showMessage("You have " + playerHealth + " life points");
-            menu.showMessage(enemy.getName() + " fled");
+        menu.showMessage("The fight start against " + enemy.getName());
+        while (enemy.getHealth() > 0 && player.getHealth() > 0) {
+            menu.showMessage("You attack " + enemy.getName());
+            int enemyHealth = enemy.looseHealth(player.getAttack());
+            menu.showMessage(enemy.getName() + " Health : " + enemyHealth);
+
+            if (enemyHealth <= 0) {
+                menu.showMessage(enemy.getName() + " is dead");
+            } else {
+                menu.showMessage(enemy.getName() + " attacks you");
+                int playerHealth = player.looseHealth(enemy.getAttack());
+                menu.showMessage("You have " + playerHealth + " life points");
+                if(playerHealth <= 0){
+                    menu.showMessage("You are dead");
+                    endOfGame();
+                }
+            }
         }
     }
 
+    public void run(){
+        int randomInt = new Random().nextInt(6)+1;
+        try{
+            if(board.getCaseOfGamer() - randomInt <= 0){
+                board.setPlayerToFirstCell();
+            }else{
+                board.setCaseOfGamer(-randomInt);
+            }
+        }catch (PersonnageHorsPlateauException e){
+            menu.showMessage(e.getMessage());
+        }
+        menu.showMessage("You move back " + randomInt + " cases, you arrived on cases " + board.getCaseOfGamer());
+    }
 }

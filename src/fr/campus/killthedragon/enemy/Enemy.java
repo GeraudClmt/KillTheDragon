@@ -20,4 +20,7 @@ public abstract class Enemy extends Cell implements ActionOfCharacter {
         return health;
     }
 
+    public int getHealth(){
+        return health;
+    }
 }

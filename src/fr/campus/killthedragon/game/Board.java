@@ -1,4 +1,5 @@
 package fr.campus.killthedragon.game;
+
 import fr.campus.killthedragon.enemy.Dragon;
 import fr.campus.killthedragon.enemy.Enemy;
 import fr.campus.killthedragon.enemy.Gobelin;
@@ -32,7 +33,7 @@ public class Board {
     /**
      * Constructs the Board with a predefined number of cases, bonus, and enemies.
      */
-    public Board(int numberCase){
+    public Board(int numberCase) {
         int dragonCases = 4;
         int wizardCases = 10;
         int gobelinCases = 10;
@@ -50,65 +51,73 @@ public class Board {
         this.numberCase = numberCase;
         casesList = new ArrayList<>(numberCase);
 
-        for(int i = 0; i <= numberCase; i++){
-            if(i == numberCase){
+        for (int i = 0; i <= numberCase; i++) {
+            if (i == numberCase) {
                 casesList.add(new FinalCell());
-            }else{
+            } else {
                 casesList.add(new EmptyCell());
             }
         }
 
-        setCaseOnTheBoard(dragonCases, new Dragon());
-        setCaseOnTheBoard(wizardCases, new Wizard());
-        setCaseOnTheBoard(gobelinCases, new Gobelin());
-
-        setCaseOnTheBoard(clubCases, new Club());
-        setCaseOnTheBoard(swordCases, new Sword());
-        setCaseOnTheBoard(flashCases, new Flash());
-        setCaseOnTheBoard(fireballCases, new FireBall());
-        setCaseOnTheBoard(bigPotionCases, new BigPotion());
-        setCaseOnTheBoard(smallCases, new SmallPotion());
+        setCaseOnTheBoard(dragonCases, "Dragon");
+        setCaseOnTheBoard(wizardCases, "Wizard");
+        setCaseOnTheBoard(gobelinCases, "Gobelin");
+        setCaseOnTheBoard(clubCases, "Club");
+        setCaseOnTheBoard(swordCases, "Sword");
+        setCaseOnTheBoard(flashCases, "Flash");
+        setCaseOnTheBoard(fireballCases, "FireBall");
+        setCaseOnTheBoard(bigPotionCases, "BigPotion");
+        setCaseOnTheBoard(smallCases, "SmallPotion");
 
     }
 
     /**
      * Updates the player's case position by adding the given number of cases.
+     *
      * @param addCase the number of cases to move forward
      */
-    public void setCaseOfGamer(int addCase) throws PersonnageHorsPlateauException{
+    public void setCaseOfGamer(int addCase) throws PersonnageHorsPlateauException {
         menu.showMessage("You move forward " + addCase + " cases");
         caseOfGamer += checkIfOutTheBoard(addCase);
-        menu.showMessage("You arrived on case " + caseOfGamer+ ", it's a " + casesList.get(caseOfGamer).toString() + " case.");
+        menu.showMessage("You arrived on case " + caseOfGamer + ", it's a " + casesList.get(caseOfGamer).toString() + " case.");
 
     }
 
     public int checkIfOutTheBoard(int addCase) throws PersonnageHorsPlateauException {
-        if (addCase + caseOfGamer > casesList.toArray().length -1){
+        if (addCase + caseOfGamer > casesList.toArray().length - 1) {
             throw new PersonnageHorsPlateauException("You are arrived on the last case.");
         }
-        return  addCase;
+        return addCase;
     }
 
-    public void setPlayerToLastCell(){
+    public void setPlayerToLastCell() {
         caseOfGamer = casesList.toArray().length - 1;
     }
 
+    public void setPlayerToFirstCell() {
+        caseOfGamer = 1;
+    }
     /**
      * Returns the current case number of the player.
+     *
      * @return the player's case number
      */
-    public int getCaseOfGamer(){return caseOfGamer;}
+    public int getCaseOfGamer() {
+        return caseOfGamer;
+    }
 
     /**
      * Assigns bonus or enemy cases randomly on the board.
+     *
      * @param nbCases the number of cases
      */
-    private void setCaseOnTheBoard(int nbCases, Cell cell){
+    private void setCaseOnTheBoard(int nbCases, String element) {
         Random rand = new Random();
 
-        for(int i = 0; i < nbCases; i++){
+        for (int i = 0; i < nbCases; i++) {
+            Cell cell = getCellOfString(element);
             boolean isNotEmpty = true;
-            while(isNotEmpty) {
+            while (isNotEmpty) {
                 int randomCase = rand.nextInt(numberCase - 2) + 2;
                 if (casesList.get(randomCase).isEmpty()) {
                     casesList.set(randomCase, cell);
@@ -119,16 +128,30 @@ public class Board {
 
     }
 
-    public Cell getCaseOfPlayer(){
+    public Cell getCaseOfPlayer() {
         return casesList.get(caseOfGamer);
     }
 
-    public int getNumberCase(){
+    public int getNumberCase() {
         return numberCase;
     }
 
-    public void addCellToBoard(int index, Cell cell){
+    public void addCellToBoard(int index, Cell cell) {
         casesList.set(index, cell);
     }
 
+    private Cell getCellOfString(String element) {
+        return switch (element) {
+            case "Dragon" -> new Dragon();
+            case "Wizard" -> new Wizard();
+            case "Gobelin" -> new Gobelin();
+            case "Club" -> new Club();
+            case "Sword" -> new Sword();
+            case "FireBall" -> new FireBall();
+            case "BigPotion" -> new BigPotion();
+            case "SmallPotion" -> new SmallPotion();
+            case "Flash" -> new Flash();
+            default -> null;
+        };
+    }
 }
