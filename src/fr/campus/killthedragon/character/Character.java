@@ -1,12 +1,13 @@
 package fr.campus.killthedragon.character;
 
+import fr.campus.killthedragon.Interfaces.ActionOfCharacter;
 import fr.campus.killthedragon.equipement.Equipment;
 
 /**
  * Represents a character in the KillTheDragon game.
  * A character has a type, name, health points, attack points, and an inventory.
  */
-public abstract class Character {
+public abstract class Character implements ActionOfCharacter {
     protected String type;
     protected String name;
     protected int health;

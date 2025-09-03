@@ -13,4 +13,7 @@ public abstract class Equipment extends Cell {
         DEFENSIVE,
         HEALTH,
     }
+    public EquipmentType getType() {
+        return type;
+    }
 }
