@@ -37,7 +37,7 @@ public abstract class Equipment extends Cell {
 
         } else if (this instanceof HealthEquipment healthEquipment) {
             player.setHealth(healthEquipment.getHealth());
-            menu.showMessage("You win " + healthEquipment.getHealth() + " life points, you have " + player.getHealth() + " health");
+            menu.showMessage("You win " + healthEquipment.getHealth() + " life points, you have " + player.getHealth() + " ❤\uFE0F");
         }
     }
 }
