@@ -7,6 +7,7 @@ import fr.campus.killthedragon.enemy.Enemy;
 import fr.campus.killthedragon.equipement.Equipment;
 import fr.campus.killthedragon.equipement.HealthEquipment;
 import fr.campus.killthedragon.equipement.OffensiveEquipment;
+import fr.campus.killthedragon.exception.EnnemyIsAlreadyDeadException;
 import fr.campus.killthedragon.exception.PersonnageHorsPlateauException;
 import fr.campus.killthedragon.db.CharacterDB;
 import fr.campus.killthedragon.exception.PersonnageIsDeadException;
@@ -111,6 +112,7 @@ public class Game {
         }
         interactWithCell();
     }
+
     private void interactWithCell(){
         Cell cellOfPlayer = board.getCaseOfPlayer();
 
@@ -122,6 +124,8 @@ public class Game {
         } catch (PersonnageRunException e) {
             menu.showMessage(e.getMessage());
             run();
+        } catch (EnnemyIsAlreadyDeadException e) {
+            menu.showMessage(e.getMessage());
         }
 
     }

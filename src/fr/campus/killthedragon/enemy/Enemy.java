@@ -2,6 +2,7 @@ package fr.campus.killthedragon.enemy;
 
 import fr.campus.killthedragon.Interfaces.ActionOfCharacter;
 import fr.campus.killthedragon.character.Character;
+import fr.campus.killthedragon.exception.EnnemyIsAlreadyDeadException;
 import fr.campus.killthedragon.exception.PersonnageIsDeadException;
 import fr.campus.killthedragon.exception.PersonnageRunException;
 import fr.campus.killthedragon.game.Cell;
@@ -32,7 +33,7 @@ public abstract class Enemy extends Cell implements ActionOfCharacter {
     }
 
     @Override
-    public void interact(Character player, Menu menu) throws PersonnageRunException, PersonnageIsDeadException {
+    public void interact(Character player, Menu menu) throws PersonnageRunException, PersonnageIsDeadException, EnnemyIsAlreadyDeadException {
         menu.showMessage("The enemy is a " + name);
         if(health > 0){
             String run = menu.getUserInput("\nEnter r to run or enter to fight.", null);
@@ -41,16 +42,14 @@ public abstract class Enemy extends Cell implements ActionOfCharacter {
             }
         }
 
-
-        boolean isPLayerDead = fight(this, menu, player);
-        if (isPLayerDead) {
-            throw  new PersonnageIsDeadException("\nThe player is dead, he has no more life.");
+        if (health <= 0) {
+            throw  new EnnemyIsAlreadyDeadException(name + " is already dead.");
         }
-
+        fight(player, menu);
     }
 
-    public boolean fight(Enemy enemy, Menu menu, Character player) {
-        switch (enemy.getName()) {
+    public void fight(Character player, Menu menu) throws PersonnageIsDeadException {
+        switch (name) {
             case "Dragon":
                 menu.printDragon();
                 break;
@@ -61,29 +60,24 @@ public abstract class Enemy extends Cell implements ActionOfCharacter {
                 menu.printGobelin();
                 break;
         }
-        if (enemy.getHealth() <= 0) {
-            menu.showMessage(enemy.getName() + " is already dead.");
-            return false;
-        }
 
-        menu.showMessage("⚔\uFE0F The fight start against " + enemy.getName());
-        while (enemy.getHealth() > 0 && player.getHealth() > 0) {
-            menu.showMessage("\n☠\uFE0F You attack " + enemy.getName());
-            int enemyHealth = enemy.looseHealth(player.getAttack());
-            menu.showMessage(enemy.getName() + "     ❤\uFE0F" + enemyHealth + "    \uD83D\uDDE1\uFE0F" + enemy.getAttack());
+        menu.showMessage("⚔\uFE0F The fight start against " + name);
+        while (health > 0 && player.getHealth() > 0) {
+            menu.showMessage("\n☠\uFE0F You attack " + name);
+            int enemyHealth = looseHealth(player.getAttack());
+            menu.showMessage(name + "     ❤\uFE0F" + enemyHealth + "    \uD83D\uDDE1\uFE0F" + attack);
 
             if (enemyHealth <= 0) {
-                menu.showMessage("☠\uFE0F " + enemy.getName() + " is dead");
+                menu.showMessage("☠\uFE0F " + name + " is dead");
             } else {
-                menu.showMessage("☠\uFE0F " + enemy.getName() + " attacks you");
-                int playerHealth = player.looseHealth(enemy.getAttack());
+                menu.showMessage("☠\uFE0F " + name + " attacks you");
+                int playerHealth = player.looseHealth(attack);
                 menu.showMessage("Your stats ❤\uFE0F" + playerHealth + "    \uD83D\uDDE1\uFE0F" + player.getAttack());
                 if (playerHealth <= 0) {
                     menu.showMessage("☠\uFE0F You are dead");
-                    return true;
+                    throw new PersonnageIsDeadException("\nThe player is dead, he has no more life.");
                 }
             }
         }
-        return false;
     }
 }
