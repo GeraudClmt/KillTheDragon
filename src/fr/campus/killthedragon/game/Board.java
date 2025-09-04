@@ -76,7 +76,7 @@ public class Board {
      *
      * @param addCase the number of cases to move forward
      */
-    public void setCaseOfGamer(int addCase) throws PersonnageHorsPlateauException {
+    public void addCaseOfGamer(int addCase) throws PersonnageHorsPlateauException {
         menu.showMessage("You move forward " + addCase + " cases");
         caseOfGamer += checkIfOutTheBoard(addCase);
         menu.showMessage("You arrived on case " + caseOfGamer + ", it's a " + casesList.get(caseOfGamer).toString() + " case.");

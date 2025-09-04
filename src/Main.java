@@ -40,7 +40,7 @@ public class Main {
             play = game.playTurn();
         }
 
-        game.closeScanner();
+        menu.closeScanner();
         menu.showMessage("Good bye :/");
 
 

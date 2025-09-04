@@ -2,6 +2,7 @@ package fr.campus.killthedragon.character;
 
 import fr.campus.killthedragon.Interfaces.ActionOfCharacter;
 import fr.campus.killthedragon.equipement.Equipment;
+import fr.campus.killthedragon.game.Cell;
 
 /**
  * Represents a character in the KillTheDragon game.

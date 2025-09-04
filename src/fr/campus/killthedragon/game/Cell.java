@@ -1,6 +1,10 @@
 package fr.campus.killthedragon.game;
 
 import fr.campus.killthedragon.character.Character;
+import fr.campus.killthedragon.enemy.Enemy;
+import fr.campus.killthedragon.exception.PersonnageIsDeadException;
+import fr.campus.killthedragon.exception.PersonnageRunException;
+
 
 /**
  * Represents a single cell on the game board.
@@ -38,12 +42,8 @@ public abstract class Cell {
         return cellType.name();
     }
 
-    public CellType interact(){
-        return cellType;
-    }
+    public String getName(){return name;}
 
-    public String getName(){
-        return name;
+    public void interact(Character player, Menu menu) throws PersonnageIsDeadException, PersonnageRunException {
     }
-
 }

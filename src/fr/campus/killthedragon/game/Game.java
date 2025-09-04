@@ -9,6 +9,8 @@ import fr.campus.killthedragon.equipement.HealthEquipment;
 import fr.campus.killthedragon.equipement.OffensiveEquipment;
 import fr.campus.killthedragon.exception.PersonnageHorsPlateauException;
 import fr.campus.killthedragon.db.CharacterDB;
+import fr.campus.killthedragon.exception.PersonnageIsDeadException;
+import fr.campus.killthedragon.exception.PersonnageRunException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,7 +21,6 @@ import java.util.Scanner;
  * Represents the main game logic and handles user interaction in the game.
  */
 public class Game {
-    private final Scanner scanner;
     private Character player;
     private final Board board;
     private final Menu menu;
@@ -27,7 +28,6 @@ public class Game {
     private CharacterDB dataBase;
 
     public Game(Menu menu) {
-        scanner = new Scanner(System.in);
         board = new Board(64);
         this.menu = menu;
         dice = new Dice();
@@ -40,17 +40,17 @@ public class Game {
      * @return {@code true} if the player wants to restart; {@code false} to quit
      */
     public boolean playTurn() {
-        String start = menu.getUserInput(scanner, "Enter y for start the game or any to quit the game.", null);
+        String start = menu.getUserInput("Enter y for start the game or any to quit the game.", null);
         if (start.equals("y")) {
             menu.showMessage("Great let's start :)");
             menu.printDragon();
 
-            String playerType = menu.getUserInput(scanner, "What is you favorite type, Warrior or Mage ?", new ArrayList<>(Arrays.asList("Warrior", "Mage")));
-            String playerName = menu.getUserInput(scanner, "Enter your name : ", null);
+            String playerType = menu.getUserInput("What is you favorite type, Warrior or Mage ?", new ArrayList<>(Arrays.asList("Warrior", "Mage")));
+            String playerName = menu.getUserInput("Enter your name : ", null);
             player = typeChoice(playerType, playerName);
 
             //player = dataBase.createHero(player);
-            //String newName = menu.getUserInput(scanner, "Enter new name ", null);
+            //String newName = menu.getUserInput("Enter new name ", null);
             //player = dataBase.editHero(player, newName);
             //dataBase.changeLifePoints(player, 10);
             //player = dataBase.getCharacter(player.getName());
@@ -58,75 +58,32 @@ public class Game {
 
             while (board.getCaseOfGamer() < board.getNumberCase()) {
                 menu.printDice();
-                menu.getUserInput(scanner, "Press enter to roll the dice.", null);
+                menu.getUserInput("\uD83C\uDFB2 Press enter to roll the dice.", null);
                 int diceRoll = dice.roll();
 
                 try {
-                    board.setCaseOfGamer(diceRoll);
-                    Cell cellOfPlayer = board.getCaseOfPlayer();
-                    switch (cellOfPlayer.interact()) {
-                        case BONUS:
-                            menu.printChest();
-                            if (cellOfPlayer instanceof Equipment equipment) {
-                                menu.showMessage("You found " + equipment.getName() + " in chest.");
-                                player.setToInventory(equipment);
-                                //menu.showMessage("Inventory " + player.getInventory());
-                                if (equipment instanceof OffensiveEquipment offensiveEquipment) {
-                                    if (playerType.equals(offensiveEquipment.forCharacter())) {
-                                        player.setAttack(offensiveEquipment.getAttack());
-                                        menu.showMessage(offensiveEquipment.getName() + " is équipped, you have " + player.getAttack() + " attacks");
-                                    } else {
-                                        menu.showMessage(equipment.getName() + " is not compatible with " + playerType);
-                                    }
+                    board.addCaseOfGamer(diceRoll);
 
-                                } else if (equipment instanceof HealthEquipment healthEquipment) {
-                                    player.setHealth(healthEquipment.getHealth());
-                                    menu.showMessage("You win " + healthEquipment.getHealth() + " life points, you have " + player.getHealth() + " health");
-                                }
+                    interactWithCell();
 
 
-                            } else {
-                                menu.showMessage("The cell is not an equipment !!!");
-                            }
-                            break;
-                        case ENEMY:
-                            if (cellOfPlayer instanceof Enemy enemy) {
-                                menu.showMessage("The enemy is a " + enemy.getName());
-                                String run = menu.getUserInput(scanner, "Enter r to run or enter to fight", null);
-                                if(run.equals("r")){
-                                    run();
-                                }else {
-                                    fight(enemy);
-                                }
-                            } else {
-                                menu.showMessage("The cell is not an enemy !!!");
-                            }
-                            break;
-                    }
-                } catch (ClassCastException e) {
-                    menu.showMessage("Can't store in the inventory because the case is not a equipment.");
                 } catch (PersonnageHorsPlateauException e) {
                     menu.showMessage(e.getMessage());
                     menu.showMessage("You win");
+                    menu.printFinalDragon();
                     endOfGame();
                 }
 
                 if (player.getHealth() <= 0) {
                     endOfGame();
                     menu.showMessage("Game over !");
+                    menu.prindDead();
                 }
             }
         }
 
-        String restart = menu.getUserInput(scanner, "The game is end, press r to restart or any to quit.", null);
+        String restart = menu.getUserInput("The game is end, press r to restart or any to quit.", null);
         return "r".equals(restart);
-    }
-
-    /**
-     * Closes the scanner resource.
-     */
-    public void closeScanner() {
-        scanner.close();
     }
 
     public Character typeChoice(String type, String name) {
@@ -137,58 +94,35 @@ public class Game {
         }
     }
 
-    public void endOfGame() {
+    private void endOfGame() {
         board.setPlayerToLastCell();
     }
 
-    public void fight(Enemy enemy) {
-        switch (enemy.getName()) {
-            case "Dragon":
-                menu.printDragon();
-                break;
-            case "Wizard":
-                menu.printWizard();
-                break;
-            case "Gobelin":
-                menu.printGobelin();
-                break;
-        }
-        if(enemy.getHealth() <= 0){
-            menu.showMessage(enemy.getName() + " is already dead.");
-            return;
-        }
-
-        menu.showMessage("The fight start against " + enemy.getName());
-        while (enemy.getHealth() > 0 && player.getHealth() > 0) {
-            menu.showMessage("You attack " + enemy.getName());
-            int enemyHealth = enemy.looseHealth(player.getAttack());
-            menu.showMessage(enemy.getName() + " Health : " + enemyHealth);
-
-            if (enemyHealth <= 0) {
-                menu.showMessage(enemy.getName() + " is dead");
-            } else {
-                menu.showMessage(enemy.getName() + " attacks you");
-                int playerHealth = player.looseHealth(enemy.getAttack());
-                menu.showMessage("You have " + playerHealth + " life points");
-                if(playerHealth <= 0){
-                    menu.showMessage("You are dead");
-                    endOfGame();
-                }
-            }
-        }
-    }
-
-    public void run(){
+    private void run(){
         int randomInt = new Random().nextInt(6)+1;
         try{
             if(board.getCaseOfGamer() - randomInt <= 0){
                 board.setPlayerToFirstCell();
             }else{
-                board.setCaseOfGamer(-randomInt);
+                board.addCaseOfGamer(-randomInt);
             }
         }catch (PersonnageHorsPlateauException e){
             menu.showMessage(e.getMessage());
         }
-        menu.showMessage("You move back " + randomInt + " cases, you arrived on cases " + board.getCaseOfGamer());
+        interactWithCell();
+    }
+    private void interactWithCell(){
+        Cell cellOfPlayer = board.getCaseOfPlayer();
+
+        try{
+            cellOfPlayer.interact(player, menu);
+        } catch (PersonnageIsDeadException e) {
+            menu.showMessage(e.getMessage());
+            endOfGame();
+        } catch (PersonnageRunException e) {
+            menu.showMessage(e.getMessage());
+            run();
+        }
+
     }
 }
