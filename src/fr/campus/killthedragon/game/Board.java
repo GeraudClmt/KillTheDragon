@@ -25,7 +25,7 @@ import java.util.Random;
  * Represents the game board containing cases for the player to move on.
  */
 public class Board {
-    private final Menu menu;
+    private transient final Menu menu;
     private final int numberCase;
     private final ArrayList<Cell> casesList;
     private int caseOfGamer;

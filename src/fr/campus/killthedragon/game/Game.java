@@ -1,5 +1,6 @@
 package fr.campus.killthedragon.game;
 
+import com.google.gson.Gson;
 import fr.campus.killthedragon.character.Character;
 import fr.campus.killthedragon.character.Mage;
 import fr.campus.killthedragon.character.Warrior;
@@ -7,16 +8,17 @@ import fr.campus.killthedragon.enemy.Enemy;
 import fr.campus.killthedragon.equipement.Equipment;
 import fr.campus.killthedragon.equipement.HealthEquipment;
 import fr.campus.killthedragon.equipement.OffensiveEquipment;
-import fr.campus.killthedragon.exception.EnnemyIsAlreadyDeadException;
-import fr.campus.killthedragon.exception.PersonnageHorsPlateauException;
+import fr.campus.killthedragon.exception.*;
 import fr.campus.killthedragon.db.CharacterDB;
-import fr.campus.killthedragon.exception.PersonnageIsDeadException;
-import fr.campus.killthedragon.exception.PersonnageRunException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Random;
-import java.util.Scanner;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  * Represents the main game logic and handles user interaction in the game.
@@ -33,6 +35,7 @@ public class Game {
         this.menu = menu;
         dice = new Dice();
         dataBase = new CharacterDB();
+
     }
 
     /**
@@ -58,6 +61,7 @@ public class Game {
             menu.showMessage("Welcome " + player + ". You start on the case " + board.getCaseOfGamer());
 
             while (board.getCaseOfGamer() < board.getNumberCase()) {
+                saveGame();
                 menu.printDice();
                 menu.getUserInput("\uD83C\uDFB2 Press enter to roll the dice.", null);
                 int diceRoll = dice.roll();
@@ -127,6 +131,34 @@ public class Game {
         } catch (EnnemyIsAlreadyDeadException e) {
             menu.showMessage(e.getMessage());
         }
-
     }
+
+    public void saveGame() {
+        Gson gson = new Gson();
+        String playerJson = gson.toJson(player);
+        String boardJson = gson.toJson(board);
+
+        File dossierData = new File("data");
+        if (!dossierData.exists()) {
+            if (!dossierData.mkdirs()) {
+                menu.showMessage("Error can't create 'data'.");
+                return;
+            }
+        }
+
+        File filePlayer = new File(dossierData, "playerData.txt");
+        File fileBoard = new File(dossierData, "boardData.txt");
+
+        try (FileWriter writerPlayer = new FileWriter(filePlayer, true)) {
+            writerPlayer.write(playerJson + "\n");
+        } catch (IOException e) {
+            menu.showMessage("Error : " + e.getMessage());
+        }
+        try (FileWriter writerBoard = new FileWriter(fileBoard, true)) {
+            writerBoard.write(boardJson + "\n");
+        } catch (IOException e) {
+            menu.showMessage("Error : " + e.getMessage());
+        }
+    }
+
 }

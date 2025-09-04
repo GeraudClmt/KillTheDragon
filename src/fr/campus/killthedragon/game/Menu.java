@@ -9,6 +9,7 @@ import java.util.Scanner;
  */
 public class Menu {
     private final Scanner scanner;
+    private Thread thread;
 
     public Menu() {
         scanner = new Scanner(System.in);
@@ -45,6 +46,11 @@ public class Menu {
      * @param message the message to display
      */
     public void showMessage(String message){
+        try{
+            Thread.sleep(600);
+        }catch (InterruptedException e){
+            Thread.currentThread().interrupt();
+        }
         System.out.println((message));
     }
 
