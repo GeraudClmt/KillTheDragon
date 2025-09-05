@@ -161,7 +161,6 @@ public class Board {
     public void addCellToBoardWithIndex(int index, Gson gson, JsonObject json){
         if(json.get("cellType").getAsString().equals("FINAL")){
             casesList.set(index, gson.fromJson(json, FinalCell.class));
-            menu.showMessage(index + " - " + json.get("cellType"));
         }else if(!json.get("cellType").getAsString().equals("EMPTY")) {
             switch (json.get("name").getAsString()) {
                 case "Dragon" -> casesList.set(index, gson.fromJson(json, Dragon.class));
@@ -174,9 +173,6 @@ public class Board {
                 case "SmallPotion" -> casesList.set(index, gson.fromJson(json, SmallPotion.class));
                 case "Flash" -> casesList.set(index, gson.fromJson(json, Flash.class));
             };
-            menu.showMessage(index + " - " + json.get("name"));
-        }else{
-            menu.showMessage(index + " - Empty");
         }
     }
 }

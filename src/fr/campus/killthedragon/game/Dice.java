@@ -1,11 +1,13 @@
 package fr.campus.killthedragon.game;
 
+import fr.campus.killthedragon.Interfaces.DiceRollerInterface;
+
 import java.util.Random;
 
 /**
  * Represents a dice used in the game to generate a random roll.
  */
-public class Dice {
+public class Dice implements DiceRollerInterface {
     private final Random random;
 
     public Dice(){

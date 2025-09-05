@@ -4,15 +4,6 @@ import com.google.gson.*;
 import fr.campus.killthedragon.character.Character;
 import fr.campus.killthedragon.character.Mage;
 import fr.campus.killthedragon.character.Warrior;
-import fr.campus.killthedragon.enemy.Dragon;
-import fr.campus.killthedragon.enemy.Gobelin;
-import fr.campus.killthedragon.enemy.Wizard;
-import fr.campus.killthedragon.equipement.health.BigPotion;
-import fr.campus.killthedragon.equipement.health.SmallPotion;
-import fr.campus.killthedragon.equipement.offensive.Club;
-import fr.campus.killthedragon.equipement.offensive.FireBall;
-import fr.campus.killthedragon.equipement.offensive.Flash;
-import fr.campus.killthedragon.equipement.offensive.Sword;
 import fr.campus.killthedragon.exception.*;
 
 import java.io.*;
@@ -97,10 +88,7 @@ public class Game {
         }
 
         String restart = menu.getUserInput("The game is end, press r to restart or any to quit.", null);
-        if("r".equals(restart)){
-            return true;
-        }
-        return false;
+        return "r".equals(restart);
     }
 
     public Character typeChoice(String type, String name) {
