@@ -15,13 +15,14 @@ import fr.campus.killthedragon.equipement.offensive.Flash;
 import fr.campus.killthedragon.equipement.offensive.Sword;
 import fr.campus.killthedragon.game.Board;
 import fr.campus.killthedragon.game.Cell;
+import fr.campus.killthedragon.game.Menu;
 
 import java.sql.*;
 
 public class CellDB extends DBConnection {
 
     public Board getBoardOfPlayer(String playerName) {
-        Board boardDb = new Board(64);
+        Board boardDb = new Board(new Menu(),64, 1, false);
         String request = "SELECT Cell.* FROM Cell JOIN Board ON Cell.board_id = Board.id JOIN `Character` ON Board.character_id = `Character`.id WHERE `Character`.name = ?;";
 
         try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);) {

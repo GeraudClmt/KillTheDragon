@@ -11,20 +11,8 @@ public class Main {
 
     public static void main(String[] args) {
         boolean play = true;
+        boolean loadSave = false;
         Menu menu = new Menu();
-        Game game = new Game(menu);
-
-
-        /*CharacterDB allCharacters = new CharacterDB();
-        List<Character> listOfCharacter =  allCharacters.getHeroes();
-
-        for (Character character : listOfCharacter){
-            menu.showMessage(character.toString());
-        }
-
-        CellDB allCells = new CellDB();
-        Board boardDB = allCells.getBoardOfPlayer("titi");*/
-
 
         menu.showMessage(
                 "██   ██ ██ ██      ██          ████████ ██   ██ ███████     ██████  ██████   █████   ██████   ██████  ███    ██ \n" +
@@ -35,8 +23,11 @@ public class Main {
                 "                                                                                                                \n" +
                 "                                                                                                                ");
 
+        String input = menu.getUserInput("Do you want reload the last save, y for yes or enter for no.", null);
+        if(input.equals("y")){loadSave = true;}
+
         while(play){
-            game = new Game(menu);
+            Game game = new Game(menu, loadSave);
             play = game.playTurn();
         }
 

@@ -1,2 +1,0 @@
-{"type":"Mage","name":"toto","health":6,"attack":8,"inventory":{"equipmentList":[]}}
-{"type":"Mage","name":"toto","health":6,"attack":8,"inventory":{"equipmentList":[]}}

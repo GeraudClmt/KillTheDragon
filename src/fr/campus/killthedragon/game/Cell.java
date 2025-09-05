@@ -44,6 +44,7 @@ public abstract class Cell {
 
     public String getName(){return name;}
 
-    public void interact(Character player, Menu menu) throws PersonnageIsDeadException, PersonnageRunException {
+    public void interact(Character player, Menu menu) throws PersonnageIsDeadException, PersonnageRunException{
+
     }
 }

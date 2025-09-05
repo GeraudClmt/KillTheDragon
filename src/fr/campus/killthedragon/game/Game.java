@@ -1,41 +1,53 @@
 package fr.campus.killthedragon.game;
 
-import com.google.gson.Gson;
+import com.google.gson.*;
 import fr.campus.killthedragon.character.Character;
 import fr.campus.killthedragon.character.Mage;
 import fr.campus.killthedragon.character.Warrior;
-import fr.campus.killthedragon.enemy.Enemy;
-import fr.campus.killthedragon.equipement.Equipment;
-import fr.campus.killthedragon.equipement.HealthEquipment;
-import fr.campus.killthedragon.equipement.OffensiveEquipment;
+import fr.campus.killthedragon.enemy.Dragon;
+import fr.campus.killthedragon.enemy.Gobelin;
+import fr.campus.killthedragon.enemy.Wizard;
+import fr.campus.killthedragon.equipement.health.BigPotion;
+import fr.campus.killthedragon.equipement.health.SmallPotion;
+import fr.campus.killthedragon.equipement.offensive.Club;
+import fr.campus.killthedragon.equipement.offensive.FireBall;
+import fr.campus.killthedragon.equipement.offensive.Flash;
+import fr.campus.killthedragon.equipement.offensive.Sword;
 import fr.campus.killthedragon.exception.*;
-import fr.campus.killthedragon.db.CharacterDB;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
+import java.util.List;
 import java.util.Random;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 
 /**
  * Represents the main game logic and handles user interaction in the game.
  */
 public class Game {
     private Character player;
-    private final Board board;
+    private Board board;
     private final Menu menu;
     private final Dice dice;
-    private CharacterDB dataBase;
 
-    public Game(Menu menu) {
-        board = new Board(64);
+    private final File dossierData;
+    private final File filePlayer;
+    private final File fileBoard;
+    private final Gson gson;
+
+    public Game(Menu menu, boolean loadSave) {
         this.menu = menu;
         dice = new Dice();
-        dataBase = new CharacterDB();
+        gson = new Gson();
+        dossierData = new File("data");
+        filePlayer = new File(dossierData, "playerData.json");
+        fileBoard = new File(dossierData, "boardData.json");
+        if(loadSave){
+            loadSaveState();
+        }else{
+            board = new Board(menu,64, 1, false);
 
+        }
     }
 
     /**
@@ -49,19 +61,15 @@ public class Game {
             menu.showMessage("Great let's start :)");
             menu.printDragon();
 
-            String playerType = menu.getUserInput("What is you favorite type, Warrior or Mage ?", new ArrayList<>(Arrays.asList("Warrior", "Mage")));
-            String playerName = menu.getUserInput("Enter your name : ", null);
-            player = typeChoice(playerType, playerName);
+            if(player == null){
+                String playerType = menu.getUserInput("What is you favorite type, Warrior or Mage ?", new ArrayList<>(Arrays.asList("Warrior", "Mage")));
+                String playerName = menu.getUserInput("Enter your name : ", null);
+                player = typeChoice(playerType, playerName);
+            }
 
-            //player = dataBase.createHero(player);
-            //String newName = menu.getUserInput("Enter new name ", null);
-            //player = dataBase.editHero(player, newName);
-            //dataBase.changeLifePoints(player, 10);
-            //player = dataBase.getCharacter(player.getName());
             menu.showMessage("Welcome " + player + ". You start on the case " + board.getCaseOfGamer());
 
             while (board.getCaseOfGamer() < board.getNumberCase()) {
-                saveGame();
                 menu.printDice();
                 menu.getUserInput("\uD83C\uDFB2 Press enter to roll the dice.", null);
                 int diceRoll = dice.roll();
@@ -84,6 +92,7 @@ public class Game {
                     menu.showMessage("Game over !");
                     menu.prindDead();
                 }
+                saveGame();
             }
         }
 
@@ -133,12 +142,10 @@ public class Game {
         }
     }
 
-    public void saveGame() {
-        Gson gson = new Gson();
+    private void saveGame() {
         String playerJson = gson.toJson(player);
         String boardJson = gson.toJson(board);
 
-        File dossierData = new File("data");
         if (!dossierData.exists()) {
             if (!dossierData.mkdirs()) {
                 menu.showMessage("Error can't create 'data'.");
@@ -146,19 +153,69 @@ public class Game {
             }
         }
 
-        File filePlayer = new File(dossierData, "playerData.txt");
-        File fileBoard = new File(dossierData, "boardData.txt");
-
-        try (FileWriter writerPlayer = new FileWriter(filePlayer, true)) {
-            writerPlayer.write(playerJson + "\n");
+        try (FileWriter writerPlayer = new FileWriter(filePlayer)) {
+            writerPlayer.write(playerJson);
         } catch (IOException e) {
             menu.showMessage("Error : " + e.getMessage());
         }
-        try (FileWriter writerBoard = new FileWriter(fileBoard, true)) {
-            writerBoard.write(boardJson + "\n");
+        try (FileWriter writerBoard = new FileWriter(fileBoard)) {
+            writerBoard.write(boardJson);
         } catch (IOException e) {
             menu.showMessage("Error : " + e.getMessage());
         }
     }
 
+    private void loadSaveState(){
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePlayer))) {
+            String line = reader.readLine();
+            if (line != null) {
+                JsonObject lineJson = JsonParser.parseString(line).getAsJsonObject();
+                if(lineJson.get("type").getAsString().equals("Mage")){
+                    player = gson.fromJson(line, Mage.class);
+                }else{
+                    player = gson.fromJson(line, Warrior.class);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error for read the file : " + e.getMessage());
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileBoard))) {
+            JsonObject lineJson  = JsonParser.parseString(reader.readLine()).getAsJsonObject();
+
+            int numberCases = lineJson.get("numberCase").getAsInt();
+            int caseOfGamer = lineJson.get("caseOfGamer").getAsInt();
+            board = new Board(menu, numberCases, caseOfGamer, true);
+
+            JsonArray casesArray = lineJson.getAsJsonArray("casesList");
+            List<JsonObject> cellJsonObjects = new ArrayList<>();
+
+            for (JsonElement elem : casesArray) {
+                cellJsonObjects.add(elem.getAsJsonObject());
+            }
+
+            for(int i = 0; i < cellJsonObjects.size(); i++){
+                if(cellJsonObjects.get(i).get("cellType").getAsString().equals("FINAL")){
+                    board.addCellToBoardWithIndex(i, gson.fromJson(cellJsonObjects.get(i ), FinalCell.class));
+                }else if(!cellJsonObjects.get(i).get("cellType").getAsString().equals("EMPTY")){
+                    switch (cellJsonObjects.get(i).get("name").getAsString()) {
+                        case "Dragon" -> board.addCellToBoardWithIndex(i, gson.fromJson(cellJsonObjects.get(i ), Dragon.class));
+                        case "Wizard" -> board.addCellToBoardWithIndex(i, gson.fromJson(cellJsonObjects.get(i), Wizard.class));
+                        case "Gobelin" -> board.addCellToBoardWithIndex(i, gson.fromJson(cellJsonObjects.get(i), Gobelin.class));
+                        case "Club" -> board.addCellToBoardWithIndex(i, gson.fromJson(cellJsonObjects.get(i), Club.class));
+                        case "Sword" -> board.addCellToBoardWithIndex(i, gson.fromJson(cellJsonObjects.get(i), Sword.class));
+                        case "FireBall" -> board.addCellToBoardWithIndex(i, gson.fromJson(cellJsonObjects.get(i), FireBall.class));
+                        case "BigPotion" -> board.addCellToBoardWithIndex(i, gson.fromJson(cellJsonObjects.get(i), BigPotion.class));
+                        case "SmallPotion" -> board.addCellToBoardWithIndex(i, gson.fromJson(cellJsonObjects.get(i), SmallPotion.class));
+                        case "Flash" -> board.addCellToBoardWithIndex(i, gson.fromJson(cellJsonObjects.get(i), Flash.class));
+                    };
+                }
+
+            }
+        menu.showMessage("Save is correctly loaded");
+        } catch (IOException e) {
+            System.out.println("Error for read the file : " + e.getMessage());
+        }
+    }
 }

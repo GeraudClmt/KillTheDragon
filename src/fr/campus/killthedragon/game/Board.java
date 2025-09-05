@@ -27,13 +27,13 @@ import java.util.Random;
 public class Board {
     private transient final Menu menu;
     private final int numberCase;
-    private final ArrayList<Cell> casesList;
+    private final List<Cell> casesList;
     private int caseOfGamer;
 
     /**
      * Constructs the Board with a predefined number of cases, bonus, and enemies.
      */
-    public Board(int numberCase) {
+    public Board(Menu menu,int numberCase, int caseOfGamer, boolean isOnlyEmptyCell) {
         int dragonCases = 4;
         int wizardCases = 10;
         int gobelinCases = 10;
@@ -46,12 +46,12 @@ public class Board {
         int smallCases = 2;
 
 
-        menu = new Menu();
-        caseOfGamer = 1;
+        this.menu = menu;
+        this.caseOfGamer = caseOfGamer;
         this.numberCase = numberCase;
         casesList = new ArrayList<>(numberCase);
 
-        for (int i = 0; i <= numberCase; i++) {
+        for (int i = 0; i <= 64; i++) {
             if (i == numberCase) {
                 casesList.add(new FinalCell());
             } else {
@@ -59,16 +59,17 @@ public class Board {
             }
         }
 
-        setCaseOnTheBoard(dragonCases, "Dragon");
-        setCaseOnTheBoard(wizardCases, "Wizard");
-        setCaseOnTheBoard(gobelinCases, "Gobelin");
-        setCaseOnTheBoard(clubCases, "Club");
-        setCaseOnTheBoard(swordCases, "Sword");
-        setCaseOnTheBoard(flashCases, "Flash");
-        setCaseOnTheBoard(fireballCases, "FireBall");
-        setCaseOnTheBoard(bigPotionCases, "BigPotion");
-        setCaseOnTheBoard(smallCases, "SmallPotion");
-
+        if(!isOnlyEmptyCell){
+            setCaseOnTheBoard(dragonCases, "Dragon");
+            setCaseOnTheBoard(wizardCases, "Wizard");
+            setCaseOnTheBoard(gobelinCases, "Gobelin");
+            setCaseOnTheBoard(clubCases, "Club");
+            setCaseOnTheBoard(swordCases, "Sword");
+            setCaseOnTheBoard(flashCases, "Flash");
+            setCaseOnTheBoard(fireballCases, "FireBall");
+            setCaseOnTheBoard(bigPotionCases, "BigPotion");
+            setCaseOnTheBoard(smallCases, "SmallPotion");
+        }
     }
 
     /**
@@ -153,5 +154,9 @@ public class Board {
             case "Flash" -> new Flash();
             default -> null;
         };
+    }
+
+    public void addCellToBoardWithIndex(int index, Cell cell){
+        casesList.set(index, cell);
     }
 }

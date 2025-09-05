@@ -4,7 +4,7 @@ import fr.campus.killthedragon.character.Character;
 import fr.campus.killthedragon.game.Cell;
 import fr.campus.killthedragon.game.Menu;
 
-public abstract class Equipment extends Cell {
+public class Equipment extends Cell {
     protected EquipmentType type;
 
     public Equipment() {
