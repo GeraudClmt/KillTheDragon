@@ -23,17 +23,16 @@ public class Main {
                 "                                                                                                                \n" +
                 "                                                                                                                ");
 
-        String input = menu.getUserInput("Do you want reload the last save, y for yes or enter for no.", null);
+        String input = menu.getUserInput("Do you want load the last save, y for yes or enter for no.", null);
         if(input.equals("y")){loadSave = true;}
 
         while(play){
             Game game = new Game(menu, loadSave);
             play = game.playTurn();
+            loadSave = false;
         }
 
         menu.closeScanner();
         menu.showMessage("Good bye :/");
-
-
     }
 }

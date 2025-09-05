@@ -1,5 +1,7 @@
 package fr.campus.killthedragon.game;
 
+import com.google.gson.*;
+import com.google.gson.JsonObject;
 import fr.campus.killthedragon.enemy.Dragon;
 import fr.campus.killthedragon.enemy.Enemy;
 import fr.campus.killthedragon.enemy.Gobelin;
@@ -156,7 +158,25 @@ public class Board {
         };
     }
 
-    public void addCellToBoardWithIndex(int index, Cell cell){
-        casesList.set(index, cell);
+    public void addCellToBoardWithIndex(int index, Gson gson, JsonObject json){
+        if(json.get("cellType").getAsString().equals("FINAL")){
+            casesList.set(index, gson.fromJson(json, FinalCell.class));
+            menu.showMessage(index + " - " + json.get("cellType"));
+        }else if(!json.get("cellType").getAsString().equals("EMPTY")) {
+            switch (json.get("name").getAsString()) {
+                case "Dragon" -> casesList.set(index, gson.fromJson(json, Dragon.class));
+                case "Wizard" -> casesList.set(index, gson.fromJson(json, Wizard.class));
+                case "Gobelin" -> casesList.set(index, gson.fromJson(json, Gobelin.class));
+                case "Club" -> casesList.set(index, gson.fromJson(json, Club.class));
+                case "Sword" -> casesList.set(index, gson.fromJson(json, Sword.class));
+                case "FireBall" -> casesList.set(index, gson.fromJson(json, FireBall.class));
+                case "BigPotion" -> casesList.set(index, gson.fromJson(json, BigPotion.class));
+                case "SmallPotion" -> casesList.set(index, gson.fromJson(json, SmallPotion.class));
+                case "Flash" -> casesList.set(index, gson.fromJson(json, Flash.class));
+            };
+            menu.showMessage(index + " - " + json.get("name"));
+        }else{
+            menu.showMessage(index + " - Empty");
+        }
     }
 }

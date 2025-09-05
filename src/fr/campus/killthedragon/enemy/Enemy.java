@@ -48,7 +48,7 @@ public abstract class Enemy extends Cell implements ActionOfCharacter {
         fight(player, menu);
     }
 
-    public void fight(Character player, Menu menu) throws PersonnageIsDeadException {
+    public void fight(Character player, Menu menu) throws PersonnageIsDeadException, PersonnageRunException {
         switch (name) {
             case "Dragon":
                 menu.printDragon();
@@ -76,6 +76,10 @@ public abstract class Enemy extends Cell implements ActionOfCharacter {
                 if (playerHealth <= 0) {
                     menu.showMessage("☠\uFE0F You are dead");
                     throw new PersonnageIsDeadException("\nThe player is dead, he has no more life.");
+                }
+                String run = menu.getUserInput("\n💨Enter r to run or enter to continue the fight.", null);
+                if (run.equals("r")) {
+                    throw new PersonnageRunException("\nThe player flees the fight.");
                 }
             }
         }

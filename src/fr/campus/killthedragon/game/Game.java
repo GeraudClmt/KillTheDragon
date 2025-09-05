@@ -97,7 +97,10 @@ public class Game {
         }
 
         String restart = menu.getUserInput("The game is end, press r to restart or any to quit.", null);
-        return "r".equals(restart);
+        if("r".equals(restart)){
+            return true;
+        }
+        return false;
     }
 
     public Character typeChoice(String type, String name) {
@@ -169,16 +172,18 @@ public class Game {
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePlayer))) {
             String line = reader.readLine();
-            if (line != null) {
                 JsonObject lineJson = JsonParser.parseString(line).getAsJsonObject();
                 if(lineJson.get("type").getAsString().equals("Mage")){
                     player = gson.fromJson(line, Mage.class);
                 }else{
                     player = gson.fromJson(line, Warrior.class);
                 }
-            }
-        } catch (IOException e) {
-            System.out.println("Error for read the file : " + e.getMessage());
+
+            menu.showMessage("The player is correctly loaded.");
+        } catch (NullPointerException e){
+            menu.showMessage("The player save is empty.");
+        }catch (IOException e) {
+            System.out.println("Error for read the saved file.");
         }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(fileBoard))) {
@@ -196,26 +201,15 @@ public class Game {
             }
 
             for(int i = 0; i < cellJsonObjects.size(); i++){
-                if(cellJsonObjects.get(i).get("cellType").getAsString().equals("FINAL")){
-                    board.addCellToBoardWithIndex(i, gson.fromJson(cellJsonObjects.get(i ), FinalCell.class));
-                }else if(!cellJsonObjects.get(i).get("cellType").getAsString().equals("EMPTY")){
-                    switch (cellJsonObjects.get(i).get("name").getAsString()) {
-                        case "Dragon" -> board.addCellToBoardWithIndex(i, gson.fromJson(cellJsonObjects.get(i ), Dragon.class));
-                        case "Wizard" -> board.addCellToBoardWithIndex(i, gson.fromJson(cellJsonObjects.get(i), Wizard.class));
-                        case "Gobelin" -> board.addCellToBoardWithIndex(i, gson.fromJson(cellJsonObjects.get(i), Gobelin.class));
-                        case "Club" -> board.addCellToBoardWithIndex(i, gson.fromJson(cellJsonObjects.get(i), Club.class));
-                        case "Sword" -> board.addCellToBoardWithIndex(i, gson.fromJson(cellJsonObjects.get(i), Sword.class));
-                        case "FireBall" -> board.addCellToBoardWithIndex(i, gson.fromJson(cellJsonObjects.get(i), FireBall.class));
-                        case "BigPotion" -> board.addCellToBoardWithIndex(i, gson.fromJson(cellJsonObjects.get(i), BigPotion.class));
-                        case "SmallPotion" -> board.addCellToBoardWithIndex(i, gson.fromJson(cellJsonObjects.get(i), SmallPotion.class));
-                        case "Flash" -> board.addCellToBoardWithIndex(i, gson.fromJson(cellJsonObjects.get(i), Flash.class));
-                    };
-                }
-
+                board.addCellToBoardWithIndex(i, gson, cellJsonObjects.get(i));
             }
-        menu.showMessage("Save is correctly loaded");
+
+        menu.showMessage("The board is correctly loaded.");
+        } catch (NullPointerException e){
+            menu.showMessage("The board save is empty.");
+            board = new Board(menu,64, 1, false);
         } catch (IOException e) {
-            System.out.println("Error for read the file : " + e.getMessage());
+            System.out.println("Error for read the saved file.");
         }
     }
 }
