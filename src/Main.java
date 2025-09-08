@@ -7,8 +7,15 @@ import fr.campus.killthedragon.db.CellDB;
 
 import java.util.List;
 
+/**
+ * Entry point for the KillTheDragon application.
+ */
 public class Main {
 
+    /**
+     * Starts the application and the main game loop.
+     * @param args Command-line arguments (not used)
+     */
     public static void main(String[] args) {
         boolean play = true;
         boolean loadSave = false;

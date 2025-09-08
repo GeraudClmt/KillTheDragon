@@ -48,6 +48,10 @@ public abstract class Character implements ActionOfCharacter {
         return inventory.toString();
     }
 
+    /**
+     * Adds an equipment item to the character's inventory.
+     * @param equipment the equipment to add
+     */
     public void setToInventory(Equipment equipment){
         inventory.addToInventory(equipment);
     }
@@ -57,20 +61,41 @@ public abstract class Character implements ActionOfCharacter {
      */
 
 
+    /**
+     * Returns the character's current health points.
+     * @return the current health value
+     */
     public int getHealth() {
         return health;
     }
 
+    /**
+     * Returns the character's name.
+     * @return the character name
+     */
     public String getName() {
         return name;
     }
+    /**
+     * Returns the character's type.
+     * @return the character type
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * Returns the character's attack points.
+     * @return the character attack value
+     */
     public int getAttack() {
         return attack;
     }
+    /**
+     * Decreases the character's health points by the given attack value.
+     * @param attack value to subtract from the character's health
+     * @return the updated health points after the attack
+     */
     public int looseHealth(int attack) {
         health -= attack;
         return health;
