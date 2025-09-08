@@ -47,7 +47,7 @@ public class Menu {
      */
     public void showMessage(String message){
         try{
-            Thread.sleep(0);
+            Thread.sleep(600);
         }catch (InterruptedException e){
             Thread.currentThread().interrupt();
         }

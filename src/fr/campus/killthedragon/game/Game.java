@@ -67,10 +67,16 @@ public class Game {
                     board.addCaseOfGamer( dice.roll(6));
                     interactWithCell();
                 } catch (PersonnageHorsPlateauException e) {
-                    menu.showMessage(e.getMessage());
-                    menu.showMessage("You win");
-                    menu.printFinalDragon();
-                    endOfGame();
+                    if(!board.isBigDragonDead()){
+                        menu.showMessage("You arrived on the final boss, the Big Dragon ☠\uFE0F☠\uFE0F☠\uFE0F");
+                        board.setPlayerToFinalBoss();
+                        interactWithCell();
+                    }else{
+                        menu.showMessage(e.getMessage());
+                        menu.showMessage("You win");
+                        menu.printFinalDragon();
+                        endOfGame();
+                    }
                 }
 
                 if (player.getHealth() <= 0) {

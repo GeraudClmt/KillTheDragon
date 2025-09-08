@@ -2,9 +2,7 @@ package fr.campus.killthedragon.game;
 
 import com.google.gson.*;
 import com.google.gson.JsonObject;
-import fr.campus.killthedragon.enemy.Dragon;
-import fr.campus.killthedragon.enemy.Gobelin;
-import fr.campus.killthedragon.enemy.Wizard;
+import fr.campus.killthedragon.enemy.*;
 import fr.campus.killthedragon.equipement.health.BigPotion;
 import fr.campus.killthedragon.equipement.health.SmallPotion;
 import fr.campus.killthedragon.equipement.offensive.Club;
@@ -14,7 +12,6 @@ import fr.campus.killthedragon.equipement.offensive.Sword;
 import fr.campus.killthedragon.exception.PersonnageHorsPlateauException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -43,14 +40,15 @@ public class Board {
         int bigPotionCases = 6;
         int smallCases = 2;
 
-
         this.menu = menu;
         this.caseOfGamer = caseOfGamer;
         this.numberCase = numberCase;
         casesList = new ArrayList<>(numberCase);
 
-        for (int i = 0; i <= 64; i++) {
-            if (i == numberCase) {
+        for (int i = 0; i <= numberCase; i++) {
+            if(i == numberCase - 1 ) {
+                casesList.add(new BigDragon());
+            } else if (i == numberCase) {
                 casesList.add(new FinalCell());
             } else {
                 casesList.add(new EmptyCell());
@@ -83,7 +81,7 @@ public class Board {
     }
 
     public int checkIfOutTheBoard(int addCase) throws PersonnageHorsPlateauException {
-        if (addCase + caseOfGamer > casesList.toArray().length - 1) {
+        if (addCase + caseOfGamer >= casesList.toArray().length - 1) {
             throw new PersonnageHorsPlateauException("You are arrived on the last case.");
         }
         return addCase;
@@ -93,6 +91,9 @@ public class Board {
         caseOfGamer = casesList.toArray().length - 1;
     }
 
+    public void setPlayerToFinalBoss(){
+        caseOfGamer = numberCase -1;
+    }
     public void setPlayerToFirstCell() {
         caseOfGamer = 1;
     }
@@ -125,6 +126,14 @@ public class Board {
             }
         }
 
+    }
+
+    public boolean isBigDragonDead(){
+        Cell cellFinalDragon = casesList.get(numberCase -1);
+        if (cellFinalDragon instanceof Enemy bigDragon) {
+            return bigDragon.getHealth() <= 0;
+        }
+        return false;
     }
 
     public Cell getCaseOfPlayer() {
@@ -168,6 +177,7 @@ public class Board {
                 case "BigPotion" -> casesList.set(index, gson.fromJson(json, BigPotion.class));
                 case "SmallPotion" -> casesList.set(index, gson.fromJson(json, SmallPotion.class));
                 case "Flash" -> casesList.set(index, gson.fromJson(json, Flash.class));
+                case "BigDragon" -> casesList.set(index, gson.fromJson(json, BigDragon.class));
             };
         }
     }

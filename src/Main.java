@@ -1,5 +1,8 @@
 import fr.campus.killthedragon.character.Character;
+import fr.campus.killthedragon.exception.CriticalAttackException;
+import fr.campus.killthedragon.exception.CriticalFailureException;
 import fr.campus.killthedragon.game.Board;
+import fr.campus.killthedragon.game.CriticalAttack;
 import fr.campus.killthedragon.game.Game;
 import fr.campus.killthedragon.game.Menu;
 import fr.campus.killthedragon.db.CharacterDB;
@@ -17,6 +20,7 @@ public class Main {
      * @param args Command-line arguments (not used)
      */
     public static void main(String[] args) {
+
         boolean play = true;
         boolean loadSave = false;
         Menu menu = new Menu();

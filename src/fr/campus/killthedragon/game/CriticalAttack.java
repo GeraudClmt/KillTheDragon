@@ -12,6 +12,7 @@ public class CriticalAttack {
 
     public void getCritical(int diceFaces) throws CriticalAttackException, CriticalFailureException {
         int criticalStrike = diceCritical.roll(diceFaces);
+        System.out.println(criticalStrike);
         if(criticalStrike==1){
             throw new CriticalFailureException("It's a critical failure!");
         }else if (criticalStrike==diceFaces) {
