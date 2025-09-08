@@ -63,14 +63,9 @@ public class Game {
             while (board.getCaseOfGamer() < board.getNumberCase()) {
                 menu.printDice();
                 menu.getUserInput("\uD83C\uDFB2 Press enter to roll the dice.", null);
-                int diceRoll = dice.roll();
-
                 try {
-                    board.addCaseOfGamer(diceRoll);
-
+                    board.addCaseOfGamer( dice.roll(6));
                     interactWithCell();
-
-
                 } catch (PersonnageHorsPlateauException e) {
                     menu.showMessage(e.getMessage());
                     menu.showMessage("You win");
@@ -171,7 +166,7 @@ public class Game {
         } catch (NullPointerException e){
             menu.showMessage("The player save is empty.");
         }catch (IOException e) {
-            System.out.println("Error for read the saved file.");
+            menu.showMessage("Error for read the saved file.");
         }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(fileBoard))) {
@@ -197,7 +192,7 @@ public class Game {
             menu.showMessage("The board save is empty.");
             board = new Board(menu,64, 1, false);
         } catch (IOException e) {
-            System.out.println("Error for read the saved file.");
+            menu.showMessage("Error for read the saved file.");
         }
     }
 }

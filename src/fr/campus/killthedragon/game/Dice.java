@@ -17,7 +17,7 @@ public class Dice implements DiceRollerInterface {
      * Rolls the dice and returns a random value between 1 and the number of dice faces (inclusive).
      * @return the dice roll result
      */
-    public int roll(){
-        return random.nextInt(6) + 1;
+    public int roll(int diceFaces) {
+        return random.nextInt(diceFaces) + 1;
     }
 }

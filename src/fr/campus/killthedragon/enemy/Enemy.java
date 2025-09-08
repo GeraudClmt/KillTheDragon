@@ -2,10 +2,9 @@ package fr.campus.killthedragon.enemy;
 
 import fr.campus.killthedragon.Interfaces.ActionOfCharacter;
 import fr.campus.killthedragon.character.Character;
-import fr.campus.killthedragon.exception.EnnemyIsAlreadyDeadException;
-import fr.campus.killthedragon.exception.PersonnageIsDeadException;
-import fr.campus.killthedragon.exception.PersonnageRunException;
+import fr.campus.killthedragon.exception.*;
 import fr.campus.killthedragon.game.Cell;
+import fr.campus.killthedragon.game.CriticalAttack;
 import fr.campus.killthedragon.game.Menu;
 
 /**
@@ -14,9 +13,11 @@ import fr.campus.killthedragon.game.Menu;
 public abstract class Enemy extends Cell implements ActionOfCharacter {
     protected int attack;
     protected int health;
+    private transient CriticalAttack criticalAttack;
 
     public Enemy() {
         super.cellType = CellType.ENEMY;
+        criticalAttack = new CriticalAttack();
     }
 
     public int getAttack() {
@@ -63,15 +64,21 @@ public abstract class Enemy extends Cell implements ActionOfCharacter {
 
         menu.showMessage("⚔\uFE0F The fight start against " + name);
         while (health > 0 && player.getHealth() > 0) {
+            int playerAttack = player.getAttack();
+            int enemyAttack = attack;
+
             menu.showMessage("\n☠\uFE0F You attack " + name);
-            int enemyHealth = looseHealth(player.getAttack());
+            playerAttack = finalAttack(menu, playerAttack);
+            int enemyHealth = looseHealth(playerAttack);
+            if(enemyHealth < 0){enemyHealth = 0;}
             menu.showMessage(name + "     ❤\uFE0F" + enemyHealth + "    \uD83D\uDDE1\uFE0F" + attack);
 
             if (enemyHealth <= 0) {
                 menu.showMessage("☠\uFE0F " + name + " is dead");
             } else {
                 menu.showMessage("☠\uFE0F " + name + " attacks you");
-                int playerHealth = player.looseHealth(attack);
+                enemyAttack = finalAttack(menu, enemyAttack);
+                int playerHealth = player.looseHealth(enemyAttack);
                 menu.showMessage("Your stats ❤\uFE0F" + playerHealth + "    \uD83D\uDDE1\uFE0F" + player.getAttack());
                 if (playerHealth <= 0) {
                     menu.showMessage("☠\uFE0F You are dead");
@@ -83,5 +90,19 @@ public abstract class Enemy extends Cell implements ActionOfCharacter {
                 }
             }
         }
+    }
+
+    private int finalAttack(Menu menu, int attack) {
+        try{
+            criticalAttack.getCritical(9);
+            menu.showMessage("It's a normal attack");
+        }catch (CriticalFailureException e){
+            menu.showMessage(e.getMessage());
+            attack = 0;
+        }catch (CriticalAttackException e){
+            menu.showMessage(e.getMessage());
+            attack += 2;
+        }
+        return attack;
     }
 }
