@@ -2,6 +2,7 @@ package fr.campus.killthedragon.character;
 
 import fr.campus.killthedragon.Interfaces.ActionOfCharacter;
 import fr.campus.killthedragon.equipement.Equipment;
+import fr.campus.killthedragon.exception.AlreadyToInventoryException;
 import fr.campus.killthedragon.game.Cell;
 
 /**
@@ -52,7 +53,7 @@ public abstract class Character implements ActionOfCharacter {
      * Adds an equipment item to the character's inventory.
      * @param equipment the equipment to add
      */
-    public void setToInventory(Equipment equipment){
+    public void setToInventory(Equipment equipment) throws AlreadyToInventoryException {
         inventory.addToInventory(equipment);
     }
     /**

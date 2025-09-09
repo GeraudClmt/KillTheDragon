@@ -1,6 +1,7 @@
 package fr.campus.killthedragon.character;
 
 import fr.campus.killthedragon.equipement.Equipment;
+import fr.campus.killthedragon.exception.AlreadyToInventoryException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,13 @@ public class Inventory {
      * Adds equipment to the inventory.
      * @param equipment Equipment to add to the inventory
      */
-    public void addToInventory(Equipment equipment){
+    public void addToInventory(Equipment equipment) throws AlreadyToInventoryException {
+        for (Equipment element : equipmentList) {
+            if (equipment.getName().equals(element.getName()) && equipment.getType() != Equipment.EquipmentType.HEALTH) {
+                throw new AlreadyToInventoryException("Already in Inventory");
+            }
+        }
+
         equipmentList.add(equipment);
     }
 
@@ -68,5 +75,9 @@ public class Inventory {
      */
     public void removeFromInventory(Equipment equipment){
         equipmentList.remove(equipment);
+    }
+
+    public void isAlreadyToInventory(Equipment equipment){
+
     }
 }
