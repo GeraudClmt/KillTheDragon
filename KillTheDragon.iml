@@ -26,5 +26,7 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="gson-2.10.1" level="project" />
+    <orderEntry type="library" exported="" scope="RUNTIME" name="OpenJFX 17" level="application" />
+    <orderEntry type="library" name="javafx-swt" level="project" />
   </component>
 </module>

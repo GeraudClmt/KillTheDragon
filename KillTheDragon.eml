@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component inherit-compiler-output="true" inheritJdk="true">
+	<exclude-output/>
+	<contentEntry url="file://$MODULE_DIR$"/>
+	<lib name="mysql-connector-j-9.3.0.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/mysql-connector-j-9.3.0.jar!/"/>
+	</lib>
+	<lib name="protobuf-java-4.29.0.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/protobuf-java-4.29.0.jar!/"/>
+	</lib>
+	<lib name="OpenJFX 17" scope="RUNTIME"/>
+	<levels>
+		<level name="gson-2.10.1" value="project"/>
+		<level name="javafx-sdk-17.0" value="project"/>
+	</levels>
+</component>
